@@ -72,10 +72,14 @@ namespace Embedly.Sample
 			var url = TestUrl();
 
 			var result = Service.Instance.GetOEmbed(url, new RequestOptions { MaxWidth = 320 });
+			
+			// basic response information
 			var response = result.Response;
+			Console.WriteLine("Type           : {0}", response.Type);
+			Console.WriteLine("Version        : {0}", response.Version);
 
+			// link details
 			var link = result.Response.AsLink;
-
 			Console.WriteLine("Author         : {0}", link.Author);
 			Console.WriteLine("AuthorUrl      : {0}", link.AuthorUrl);
 			Console.WriteLine("CacheAge       : {0}", link.CacheAge);
@@ -86,11 +90,10 @@ namespace Embedly.Sample
 			Console.WriteLine("ThumbnailUrl   : {0}", link.ThumbnailUrl);
 			Console.WriteLine("ThumbnailWidth : {0}", link.ThumbnailWidth);
 			Console.WriteLine("Title          : {0}", link.Title);
-			Console.WriteLine("Type           : {0}", response.Type);
 			Console.WriteLine("Url            : {0}", link.Url);
-			Console.WriteLine("Version        : {0}", response.Version);
 			Console.WriteLine();
 
+			// video specific details
 			var video = result.Response.AsVideo;
 			Console.WriteLine("Width          : {0}", video.Width);
 			Console.WriteLine("Height         : {0}", video.Height);
@@ -126,7 +129,7 @@ namespace Embedly.Sample
 		{
 			Console.WriteLine("MultipleFilterByProvider");
 			var urls = TestUrls();
-			var results = Service.Instance.GetOEmbeds(urls, x => x.Name == "vimeo", new TimeSpan(0, 0, 10), new RequestOptions { MaxWidth = 320 });
+			var results = Service.Instance.GetOEmbeds(urls, provider => provider.Name == "youtube", new RequestOptions { MaxWidth = 320 });
 			DisplayResults(results);
 			Console.WriteLine();
 		}
@@ -135,7 +138,7 @@ namespace Embedly.Sample
 		{
 			Console.WriteLine("MultipleFilterByType");
 			var urls = TestUrls();
-			var results = Service.Instance.GetOEmbeds(urls, x => x.Type == ProviderType.Product, new TimeSpan(0, 0, 10), new RequestOptions { MaxWidth = 320 });
+			var results = Service.Instance.GetOEmbeds(urls, provider => provider.Type == ProviderType.Product, new RequestOptions { MaxWidth = 320 });
 			DisplayResults(results);
 			Console.WriteLine();
 		}
