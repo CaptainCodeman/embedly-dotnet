@@ -22,6 +22,7 @@ namespace Embedly.Sample
 			MultipleFilterByProvider(client);
 			MultipleFilterByType(client);
 			MultipleAll(client);
+			Unsupported(client);
 
 			Console.WriteLine();
 			Console.WriteLine("Finished");
@@ -129,6 +130,15 @@ namespace Embedly.Sample
 			Console.WriteLine();
 		}
 
+		private static void Unsupported(Client client)
+		{
+			Console.WriteLine("Unsupported");
+			var urls = TestUrls();
+			var results = client.GetOEmbeds(urls, new RequestOptions { SupportedOnly = false });
+			DisplayResults(results);
+			Console.WriteLine();
+		}
+
 		private static void MultipleFilterByProvider(Client client)
 		{
 			Console.WriteLine("MultipleFilterByProvider");
@@ -151,9 +161,10 @@ namespace Embedly.Sample
 		{
 			foreach (var result in results)
 			{
+				var provider = result.Request.Provider == null ? "no provider" : result.Request.Provider.Name;
 				if (result.Exception == null)
 				{
-					Console.WriteLine("{0} found for {1}", result.Response.Type, result.RequestedUrl);
+					Console.WriteLine("{0} found for {1} ({2})", result.Response.Type, result.Request.Url, provider);
 					switch (result.Response.Type)
 					{
 						case ResourceType.Error:
@@ -180,7 +191,7 @@ namespace Embedly.Sample
 				}
 				else
 				{
-					Console.WriteLine("Exception requesting {0} : {1}", result.RequestedUrl, result.Exception);				
+					Console.WriteLine("Exception requesting {0} : {1}", result.Request.Url, result.Exception);				
 				}
 			}
 		}
@@ -593,7 +604,10 @@ namespace Embedly.Sample
 
 				// Domain - http://www.lala.com
 				"http://www.lala.com/#album/432627041169206995/Rihanna/Rated_R",
-				"http://www.lala.com/#album/432627041169204967/Lady_GaGa/Bad_Romance"
+				"http://www.lala.com/#album/432627041169204967/Lady_GaGa/Bad_Romance",
+
+				// Unsupported
+				"http://news.cnet.com/8301-13579_3-20077402-37/apple-loses-bid-for-injunction-against-amazon/?tag=topTechContentWrap;editorPicks"
 			};
 
 			return urls.Select(url => new Uri(url));

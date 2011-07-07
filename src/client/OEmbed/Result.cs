@@ -9,9 +9,9 @@ namespace Embedly.OEmbed
 	public class Result
 	{
 		/// <summary>
-		/// Gets the originally requested URL.
+		/// Gets the original request information.
 		/// </summary>
-		public Uri RequestedUrl { get; private set; }
+		public UrlRequest Request { get; private set; }
 
 		/// <summary>
 		/// Gets the response.
@@ -26,22 +26,22 @@ namespace Embedly.OEmbed
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Result"/> class.
 		/// </summary>
-		/// <param name="requestedUrl">The requested URL.</param>
+		/// <param name="request">The request.</param>
 		/// <param name="response">The response.</param>
-		public Result(Uri requestedUrl, Response response)
+		public Result(UrlRequest request, Response response)
 		{
-			RequestedUrl = requestedUrl;
+			Request = request;
 			Response = response;
 		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Result"/> class.
 		/// </summary>
-		/// <param name="requestedUrl">The requested URL.</param>
+		/// <param name="request">The request.</param>
 		/// <param name="exception">The exception.</param>
-		public Result(Uri requestedUrl, Exception exception)
+		public Result(UrlRequest request, Exception exception)
 		{
-			RequestedUrl = requestedUrl;
+			Request = request;
 			Exception = exception;
 		}
 	}

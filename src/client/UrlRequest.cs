@@ -5,7 +5,7 @@ namespace Embedly
 	/// <summary>
 	/// Represents an individual embedly url request with the associated provider that is expected to fulfill it
 	/// </summary>
-	internal class UrlRequest
+	public class UrlRequest
 	{
 		/// <summary>
 		/// Gets or sets the provider.
@@ -13,7 +13,7 @@ namespace Embedly
 		/// <value>
 		/// The provider.
 		/// </value>
-		internal Provider Provider { get; set; }
+		public Provider Provider { get; set; }
 
 		/// <summary>
 		/// Gets or sets the URL.
@@ -21,14 +21,20 @@ namespace Embedly
 		/// <value>
 		/// The URL.
 		/// </value>
-		internal Uri Url { get; set; }
+		public Uri Url { get; set; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="UrlRequest"/> class.
+		/// </summary>
+		/// <param name="url">The URL.</param>
+		public UrlRequest(Uri url) : this(null, url) { }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="UrlRequest"/> class.
 		/// </summary>
 		/// <param name="provider">The provider.</param>
 		/// <param name="url">The URL.</param>
-		internal UrlRequest(Provider provider, Uri url)
+		public UrlRequest(Provider provider, Uri url)
 		{
 			Provider = provider;
 			Url = url;

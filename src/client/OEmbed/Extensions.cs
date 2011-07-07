@@ -144,7 +144,7 @@ namespace Embedly.OEmbed
 							var responses = Deserialize(callbackState.ResponseStream);
 							for (var i = 0; i < state.UrlRequests.Length; i++)
 							{
-								results.Add(new Result(state.UrlRequests[i].Url, responses[i]));
+								results.Add(new Result(state.UrlRequests[i], responses[i]));
 							}
 						}
 					}
@@ -152,7 +152,7 @@ namespace Embedly.OEmbed
 					{
 						for (var i = 0; i < state.UrlRequests.Length; i++)
 						{
-							results.Add(new Result(state.UrlRequests[i].Url, callbackState.Exception));
+							results.Add(new Result(state.UrlRequests[i], callbackState.Exception));
 						}
 					}
 
