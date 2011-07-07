@@ -62,6 +62,14 @@
 		public int Chars { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether to force embedly to reevaluate the link 
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if force reevaluation; otherwise, <c>false</c>.
+		/// </value>
+		public bool Force { get; set; }
+
+		/// <summary>
 		/// Builds query-string parameters based on the request options set
 		/// </summary>
 		/// <returns></returns>
@@ -89,6 +97,9 @@
 
 			if (Chars > 0)
 				querystring += "&chars=" + Chars;
+
+			if (Force)
+				querystring += "&force=true";
 
 			return querystring;
 		}
