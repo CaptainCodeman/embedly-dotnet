@@ -6,14 +6,6 @@
 	public class RequestOptions
 	{
 		/// <summary>
-		/// Gets or sets the key for authentication.
-		/// </summary>
-		/// <value>
-		/// The key.
-		/// </value>
-		public string Key { get; set; }
-
-		/// <summary>
 		/// Gets or sets the maximum width of the content.
 		/// </summary>
 		/// <value>
@@ -37,7 +29,14 @@
 		/// </value>
 		public int Width { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating whether to strip styling.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if [no style]; otherwise, <c>false</c>.
+		/// </value>
 		public bool NoStyle { get; set; }
+
 		/// <summary>
 		/// Gets or sets a value indicating whether to auto play videos.
 		/// </summary>
@@ -69,9 +68,6 @@
 		internal string GetQueryString()
 		{
 			var querystring = string.Empty;
-
-			if (!string.IsNullOrEmpty(Key))
-				querystring += "&key=" + Key;
 
 			if (MaxWidth > 0)
 				querystring += "&maxwidth=" + MaxWidth;

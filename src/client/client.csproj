@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Http\HttpWebRequestAsyncState.cs" />
     <Compile Include="Http\HttpWebRequestCallbackState.cs" />

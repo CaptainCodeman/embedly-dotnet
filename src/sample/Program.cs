@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using Embedly;
@@ -11,24 +12,27 @@ namespace Embedly.Sample
 	{
 		static void Main(string[] args)
 		{
-			Providers();
-			ProviderInformation();
-			ProviderPerUrl();
-			SingleVideo();
-			MultipleFilterByProvider();
-			MultipleFilterByType();
-			MultipleAll();
+			var key = ConfigurationManager.AppSettings["embedly.key"];
+			var client = new Client(key);
+
+			Providers(client);
+			ProviderInformation(client);
+			ProviderPerUrl(client);
+			SingleVideo(client);
+			MultipleFilterByProvider(client);
+			MultipleFilterByType(client);
+			MultipleAll(client);
 
 			Console.WriteLine();
 			Console.WriteLine("Finished");
 			Console.ReadLine();
 		}
 
-		private static void Providers()
+		private static void Providers(Client client)
 		{
 			Console.WriteLine("Providers");
 
-			foreach (var provider in Service.Instance.Providers)
+			foreach (var provider in client.Providers)
 			{
 				Console.WriteLine("{0} {1}", provider.Type, provider.Name);
 				foreach (var regex in provider.Regexs)
@@ -39,7 +43,7 @@ namespace Embedly.Sample
 			Console.WriteLine();
 		}
 
-		private static void ProviderInformation()
+		private static void ProviderInformation(Client client)
 		{
 			Console.WriteLine("ProviderInformation");
 
@@ -48,11 +52,11 @@ namespace Embedly.Sample
 			Console.WriteLine("Url {0}", url);
 			Console.WriteLine();
 
-			var supported = Service.Instance.IsUrlSupported(url);
+			var supported = client.IsUrlSupported(url);
 			Console.WriteLine("Supported      : {0}", supported);
 			Console.WriteLine();
 
-			var provider = Service.Instance.GetProvider(url);
+			var provider = client.GetProvider(url);
 			Console.WriteLine("PROVIDER");
 			Console.WriteLine("About          : {0}", provider.About);
 			Console.WriteLine("DisplayName    : {0}", provider.DisplayName);
@@ -65,13 +69,13 @@ namespace Embedly.Sample
 			Console.WriteLine();
 		}
 
-		private static void SingleVideo()
+		private static void SingleVideo(Client client)
 		{
 			Console.WriteLine("SingleVideo");
 
 			var url = TestUrl();
 
-			var result = Service.Instance.GetOEmbed(url, new RequestOptions { MaxWidth = 320 });
+			var result = client.GetOEmbed(url, new RequestOptions { MaxWidth = 320 });
 			
 			// basic response information
 			var response = result.Response;
@@ -101,13 +105,13 @@ namespace Embedly.Sample
 			Console.WriteLine();
 		}
 
-		private static void ProviderPerUrl()
+		private static void ProviderPerUrl(Client client)
 		{
 			Console.WriteLine("ProviderPerUrl");
 			var urls = TestUrls();
 			foreach (var url in urls)
 			{
-				var provider = Service.Instance.GetProvider(url);
+				var provider = client.GetProvider(url);
 				if (provider == null)
 					Console.WriteLine("No provider for {0}", url);
 				else
@@ -116,29 +120,29 @@ namespace Embedly.Sample
 			Console.WriteLine();
 		}
 
-		private static void MultipleAll()
+		private static void MultipleAll(Client client)
 		{
 			Console.WriteLine("Multiple");
 			var urls = TestUrls();
-			var results = Service.Instance.GetOEmbeds(urls);
+			var results = client.GetOEmbeds(urls);
 			DisplayResults(results);
 			Console.WriteLine();
 		}
 
-		private static void MultipleFilterByProvider()
+		private static void MultipleFilterByProvider(Client client)
 		{
 			Console.WriteLine("MultipleFilterByProvider");
 			var urls = TestUrls();
-			var results = Service.Instance.GetOEmbeds(urls, provider => provider.Name == "youtube", new RequestOptions { MaxWidth = 320 });
+			var results = client.GetOEmbeds(urls, provider => provider.Name == "youtube", new RequestOptions { MaxWidth = 320 });
 			DisplayResults(results);
 			Console.WriteLine();
 		}
 
-		private static void MultipleFilterByType()
+		private static void MultipleFilterByType(Client client)
 		{
 			Console.WriteLine("MultipleFilterByType");
 			var urls = TestUrls();
-			var results = Service.Instance.GetOEmbeds(urls, provider => provider.Type == ProviderType.Product, new RequestOptions { MaxWidth = 320 });
+			var results = client.GetOEmbeds(urls, provider => provider.Type == ProviderType.Product, new RequestOptions { MaxWidth = 320 });
 			DisplayResults(results);
 			Console.WriteLine();
 		}

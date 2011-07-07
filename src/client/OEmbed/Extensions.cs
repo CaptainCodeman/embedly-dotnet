@@ -17,93 +17,72 @@ namespace Embedly.OEmbed
 		/// <summary>
 		/// Gets an individual oEmbed.
 		/// </summary>
+		/// <param name="client">The client.</param>
 		/// <param name="url">The URL.</param>
 		/// <returns></returns>
-		public static Result GetOEmbed(this Service service, Uri url)
+		public static Result GetOEmbed(this Client client, Uri url)
 		{
-			return GetOEmbed(service, url, null, new TimeSpan(0, 0, 30), new RequestOptions());
+			return GetOEmbed(client, url, null, new RequestOptions());
 		}
 
 		/// <summary>
 		/// Gets an individual oEmbed.
 		/// </summary>
+		/// <param name="client">The client.</param>
 		/// <param name="url">The URL.</param>
 		/// <param name="options">The options.</param>
 		/// <returns></returns>
-		public static Result GetOEmbed(this Service service, Uri url, RequestOptions options)
+		public static Result GetOEmbed(this Client client, Uri url, RequestOptions options)
 		{
-			return GetOEmbed(service, url, null, new TimeSpan(0, 0, 30), options);
+			return GetOEmbed(client, url, null, options);
 		}
 
 		/// <summary>
 		/// Gets an individual oEmbed.
 		/// </summary>
-		/// <param name="service">The service.</param>
+		/// <param name="client">The client.</param>
 		/// <param name="url">The URL.</param>
 		/// <param name="providerFilter">The provider filter.</param>
 		/// <param name="options">The options.</param>
 		/// <returns></returns>
-		public static Result GetOEmbed(this Service service, Uri url, Func<Provider, bool> providerFilter, RequestOptions options)
+		public static Result GetOEmbed(this Client client, Uri url, Func<Provider, bool> providerFilter, RequestOptions options)
 		{
-			return GetOEmbed(service, url, providerFilter, new TimeSpan(0, 0, 30), options);
-		}
-
-		/// <summary>
-		/// Gets an individual oEmbed.
-		/// </summary>
-		/// <param name="url">The URL.</param>
-		/// <param name="providerFilter">The provider filter.</param>
-		/// <param name="timeout">The timeout.</param>
-		/// <param name="options">The options.</param>
-		/// <returns></returns>
-		public static Result GetOEmbed(this Service service, Uri url, Func<Provider, bool> providerFilter, TimeSpan timeout, RequestOptions options)
-		{
-			return GetOEmbeds(service, new[] { url }, providerFilter, timeout, options).FirstOrDefault();
+			return GetOEmbeds(client, new[] { url }, providerFilter, options).FirstOrDefault();
 		}
 
 		/// <summary>
 		/// Gets multiple oEmbeds
 		/// </summary>
+		/// <param name="client">The client.</param>
 		/// <param name="urls">The urls.</param>
 		/// <returns></returns>
-		public static IEnumerable<Result> GetOEmbeds(this Service service, IEnumerable<Uri> urls)
+		public static IEnumerable<Result> GetOEmbeds(this Client client, IEnumerable<Uri> urls)
 		{
-			return GetOEmbeds(service, urls, null, new TimeSpan(0, 0, 30), new RequestOptions());
+			return GetOEmbeds(client, urls, null, new RequestOptions());
 		}
 
 		/// <summary>
 		/// Gets multiple oEmbeds
 		/// </summary>
+		/// <param name="client">The client.</param>
 		/// <param name="urls">The urls.</param>
 		/// <param name="options">The options.</param>
 		/// <returns></returns>
-		public static IEnumerable<Result> GetOEmbeds(this Service service, IEnumerable<Uri> urls, RequestOptions options)
+		public static IEnumerable<Result> GetOEmbeds(this Client client, IEnumerable<Uri> urls, RequestOptions options)
 		{
-			return GetOEmbeds(service, urls, null, new TimeSpan(0, 0, 30), options);
-		}
-
-		/// <summary>
-		/// Gets multiple oEmbeds.
-		/// </summary>
-		/// <param name="service">The service.</param>
-		/// <param name="urls">The urls.</param>
-		/// <param name="providerFilter">The provider filter.</param>
-		/// <param name="options">The options.</param>
-		/// <returns></returns>
-		public static IEnumerable<Result> GetOEmbeds(this Service service, IEnumerable<Uri> urls, Func<Provider, bool> providerFilter, RequestOptions options)
-		{
-			return GetOEmbeds(service, urls, providerFilter, new TimeSpan(0, 0, 30), options);
+			return GetOEmbeds(client, urls, null, options);
 		}
 
 		/// <summary>
 		/// Gets multiple oEmbeds
 		/// </summary>
+		/// <param name="client">The client.</param>
 		/// <param name="urls">The urls.</param>
 		/// <param name="providerFilter">The provider filter.</param>
 		/// <param name="timeout">The timeout.</param>
 		/// <param name="options">The options.</param>
 		/// <returns></returns>
-		public static IEnumerable<Result> GetOEmbeds(this Service service, IEnumerable<Uri> urls, Func<Provider, bool> providerFilter, TimeSpan timeout, RequestOptions options)
+		public static IEnumerable<Result> GetOEmbeds(this Client client, IEnumerable<Uri> urls, Func<Provider, bool> providerFilter, RequestOptions options)
 		{
 			if (urls == null)
 				throw new ArgumentNullException("urls");
@@ -112,11 +91,11 @@ namespace Embedly.OEmbed
 				throw new ArgumentNullException("options");
 
 			var results = urls
-				.SupportedUrls()
+				.SupportedUrls(client)
 				.WhereProvider(providerFilter)
 				.TakeChunks(20)
-				.MakeOEmbedRequest(options)
-				.Download(timeout);
+				.MakeOEmbedRequest(client.Key, options)
+				.Download(client.Timeout);
 
 			return results;
 		}
@@ -125,13 +104,14 @@ namespace Embedly.OEmbed
 		/// Create the oEmbed request.
 		/// </summary>
 		/// <param name="source">The source.</param>
+		/// <param name="key">The key.</param>
 		/// <param name="options">The options.</param>
 		/// <returns></returns>
-		private static IEnumerable<EmbedlyRequest> MakeOEmbedRequest(this IEnumerable<IEnumerable<UrlRequest>> source, RequestOptions options)
+		private static IEnumerable<EmbedlyRequest> MakeOEmbedRequest(this IEnumerable<IEnumerable<UrlRequest>> source, string key, RequestOptions options)
 		{
 			return source.Select(reqs =>
 			    new EmbedlyRequest(
-					new Uri(@"http://api.embed.ly/1/oembed?format=json&urls=" + string.Join(",", reqs.Select(req => Uri.EscapeDataString(req.Url.AbsoluteUri))) + options.GetQueryString()),
+					new Uri(@"http://api.embed.ly/1/oembed?format=json&key=" + key + @"&urls=" + string.Join(",", reqs.Select(req => Uri.EscapeDataString(req.Url.AbsoluteUri))) + options.GetQueryString()),
 					reqs.ToArray()
 				)
 			);
@@ -143,7 +123,7 @@ namespace Embedly.OEmbed
 		/// <param name="source">The source.</param>
 		/// <param name="timeout">The timeout.</param>
 		/// <returns></returns>
-		internal static IEnumerable<Result> Download(this IEnumerable<EmbedlyRequest> source, TimeSpan timeout)
+		private static IEnumerable<Result> Download(this IEnumerable<EmbedlyRequest> source, TimeSpan timeout)
 		{
 			if (!source.Any())
 				return new Result[] {};
