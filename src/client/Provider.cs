@@ -3,7 +3,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Common.Logging;
 
-namespace Embedly.Client
+namespace Embedly
 {
 	/// <summary>
 	/// Represents an embedly provider

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace Embedly.Client.Http
+namespace Embedly.Http
 {
 	/// <summary>
 	/// This class is used to pass on "state" between each Begin/End call

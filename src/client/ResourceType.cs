@@ -1,4 +1,4 @@
-﻿namespace Embedly.Client
+﻿namespace Embedly
 {
 	/// <summary>
 	/// The type of response returned from embedly

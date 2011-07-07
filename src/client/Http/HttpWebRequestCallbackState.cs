@@ -4,7 +4,7 @@ using System.IO.Compression;
 using System.Net;
 using Common.Logging;
 
-namespace Embedly.Client.Http
+namespace Embedly.Http
 {
 	/// <summary>
 	/// This class is passed on to the user supplied callback method as a parameter. If there was an exception during the process

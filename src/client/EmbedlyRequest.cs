@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Embedly.Client
+namespace Embedly
 {
 	/// <summary>
 	/// Represents a single call to embedly

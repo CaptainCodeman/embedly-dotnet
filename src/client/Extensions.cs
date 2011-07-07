@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Embedly.Client
+namespace Embedly
 {
 	/// <summary>
 	/// Internal LINQ extensions

@@ -6,7 +6,7 @@ using System.Net;
 using System.Runtime.Serialization.Json;
 using Common.Logging;
 
-namespace Embedly.Client
+namespace Embedly
 {
 	/// <summary>
 	/// Retrieves the list of supported services and provides a way to check if a URL is supported

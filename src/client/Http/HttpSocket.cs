@@ -4,7 +4,7 @@ using System.Net;
 using System.Threading;
 using Common.Logging;
 
-namespace Embedly.Client.Http
+namespace Embedly.Http
 {
 	/// <summary>
 	/// Handle asynchronous downloads

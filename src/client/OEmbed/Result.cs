@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace Embedly.Client.OEmbed
+namespace Embedly.OEmbed
 {
 	/// <summary>
 	/// Represents an oEmbed result

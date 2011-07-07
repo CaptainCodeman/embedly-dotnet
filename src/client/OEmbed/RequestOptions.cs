@@ -1,4 +1,4 @@
-﻿namespace Embedly.Client.OEmbed
+﻿namespace Embedly.OEmbed
 {
 	/// <summary>
 	/// oEmbed request options

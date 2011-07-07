@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Embedly.Client.OEmbed
+namespace Embedly.OEmbed
 {
 	/// <summary>
 	/// Represents a base oEmbed response primarily used to identify the type

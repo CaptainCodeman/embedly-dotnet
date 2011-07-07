@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Embedly.Client
+namespace Embedly
 {
 	/// <summary>
 	/// Represents an individual embedly url request with the associated provider that is expected to fulfill it

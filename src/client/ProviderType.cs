@@ -1,4 +1,4 @@
-﻿namespace Embedly.Client
+﻿namespace Embedly
 {
 	/// <summary>
 	/// Embedly provider type

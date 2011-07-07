@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 
-namespace Embedly.Client.OEmbed
+namespace Embedly.OEmbed
 {
 	/// <summary>
 	/// Used to identify and convert types when deserializing response

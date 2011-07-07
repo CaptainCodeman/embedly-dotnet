@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Threading;
-using Embedly.Client.Http;
+using Embedly.Http;
 
-namespace Embedly.Client.OEmbed
+namespace Embedly.OEmbed
 {
 	/// <summary>
 	/// oEmbed specific extension methods

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Embedly.Client.OEmbed
+namespace Embedly.OEmbed
 {
 	/// <summary>
 	/// Represents an oEmbed rich content response
