@@ -9,9 +9,13 @@ namespace Embedly
 	/// </summary>
 	internal static class Extensions
 	{
-		internal static IEnumerable<UrlRequest> SupportedUrls(this IEnumerable<Uri> source, Client client)
+		internal static IEnumerable<UrlRequest> MakeUrlRequests(this IEnumerable<Uri> source, Client client, bool supportedOnly)
 		{
-			return source.Select(url => new UrlRequest(client.GetProvider(url), url)).Where(pr => pr.Provider != null);
+			var result = source.Select(url => new UrlRequest(client.GetProvider(url), url));
+			if (supportedOnly)
+				result = result.Where(pr => pr.Provider != null);
+
+			return result;
 		}
 
 		internal static IEnumerable<UrlRequest> WhereProvider(this IEnumerable<UrlRequest> source, Func<Provider, bool> predicate)

@@ -70,6 +70,22 @@
 		public bool Force { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether to request provider-supported urls only.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if urls are filtered; otherwise, <c>false</c>.
+		/// </value>
+		public bool SupportedOnly { get; set; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RequestOptions"/> class.
+		/// </summary>
+		public RequestOptions()
+		{
+			SupportedOnly = true;
+		}
+
+		/// <summary>
 		/// Builds query-string parameters based on the request options set
 		/// </summary>
 		/// <returns></returns>

@@ -91,7 +91,7 @@ namespace Embedly.OEmbed
 				throw new ArgumentNullException("options");
 
 			var results = urls
-				.SupportedUrls(client)
+				.MakeUrlRequests(client, options.SupportedOnly)
 				.WhereProvider(providerFilter)
 				.TakeChunks(20)
 				.MakeOEmbedRequest(client.Key, options)
