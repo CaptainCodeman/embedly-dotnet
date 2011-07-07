@@ -38,6 +38,19 @@ namespace Embedly.Client.OEmbed
 		/// <summary>
 		/// Gets an individual oEmbed.
 		/// </summary>
+		/// <param name="service">The service.</param>
+		/// <param name="url">The URL.</param>
+		/// <param name="providerFilter">The provider filter.</param>
+		/// <param name="options">The options.</param>
+		/// <returns></returns>
+		public static Result GetOEmbed(this Service service, Uri url, Func<Provider, bool> providerFilter, RequestOptions options)
+		{
+			return GetOEmbed(service, url, providerFilter, new TimeSpan(0, 0, 30), options);
+		}
+
+		/// <summary>
+		/// Gets an individual oEmbed.
+		/// </summary>
 		/// <param name="url">The URL.</param>
 		/// <param name="providerFilter">The provider filter.</param>
 		/// <param name="timeout">The timeout.</param>
@@ -67,6 +80,19 @@ namespace Embedly.Client.OEmbed
 		public static IEnumerable<Result> GetOEmbeds(this Service service, IEnumerable<Uri> urls, RequestOptions options)
 		{
 			return GetOEmbeds(service, urls, null, new TimeSpan(0, 0, 30), options);
+		}
+
+		/// <summary>
+		/// Gets multiple oEmbeds.
+		/// </summary>
+		/// <param name="service">The service.</param>
+		/// <param name="urls">The urls.</param>
+		/// <param name="providerFilter">The provider filter.</param>
+		/// <param name="options">The options.</param>
+		/// <returns></returns>
+		public static IEnumerable<Result> GetOEmbeds(this Service service, IEnumerable<Uri> urls, Func<Provider, bool> providerFilter, RequestOptions options)
+		{
+			return GetOEmbeds(service, urls, providerFilter, new TimeSpan(0, 0, 30), options);
 		}
 
 		/// <summary>
