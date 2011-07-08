@@ -2,6 +2,8 @@
 
 embedly-dotnet is a .Net client for [Embed.ly](http://embed.ly/).
 
+Available as a [NuGet Package](http://nuget.org/List/Packages/embedly)
+
 ## Features
 
 * High-performance URL matching (without regex's)
