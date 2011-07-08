@@ -14,15 +14,21 @@ Available as a [NuGet Package](http://nuget.org/List/Packages/embedly)
 ## Examples
 See the sample project for complete examples.
 
+### Create an Embed.ly client
+The client handles all interaction with embedly and requires a key to use.
+
+    var key = ConfigurationManager.AppSettings["embedly.key"];
+    var client = new Client(key);
+
 ### Check if URL supported by Embed.ly
 This is used internally to ensure the only Urls sent to embedly are supported ones. 
 
-    Service.Instance.IsUrlSupported(url);
+    client.IsUrlSupported(url);
 
 ### Retrieve Video Information
 This shows a request for a video Url from YouTube.
 
-    var result = Service.Instance.GetOEmbed(new Uri(@"http://www.youtube.com/watch?v=YwSZvHqf9qM"), new RequestOptions { MaxWidth = 320 });
+    var result = client.GetOEmbed(new Uri(@"http://www.youtube.com/watch?v=YwSZvHqf9qM"), new RequestOptions { MaxWidth = 320 });
 			
     // basic response information
     var response = result.Response;
@@ -54,12 +60,12 @@ This shows a request for a video Url from YouTube.
 ## Lookups Urls matching specific provider
 A list of urls can be automatically filtered based on any property of the provider. In this case, we're only interested in getting information about YouTube videos ('urls' is `IEnumerable<Uri>`).
 
-    var results = Service.Instance.GetOEmbeds(urls, provider => provider.Name == "youtube", new RequestOptions { MaxWidth = 320 });
+    var results = client.GetOEmbeds(urls, provider => provider.Name == "youtube", new RequestOptions { MaxWidth = 320 });
 
 ## Lookups Urls based on provider type
 Similar to the previous example, this expands the lookup to cover all providers of videos.
 
-    var results = Service.Instance.GetOEmbeds(urls, provider => provider.Type == ProviderType.Video, new RequestOptions { MaxWidth = 320 });
+    var results = client.GetOEmbeds(urls, provider => provider.Type == ProviderType.Video, new RequestOptions { MaxWidth = 320 });
 
 ## Limitations
 The current version supports [oEmbed](http://embed.ly/docs/endpoints/1/oembed) only. Support for the [Preview](http://embed.ly/docs/endpoints/1/preview) and [Objectify](http://embed.ly/docs/endpoints) endpoints is planned for future releases.
