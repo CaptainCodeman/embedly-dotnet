@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>embedly</id>
+    <version>0.1</version>
+    <title>Embedly Client for .NET</title>
+    <authors>Simon Green</authors>
+    <owners>Simon Green</owners>
+    <projectUrl>https://github.com/CaptainCodeman/embedly-dotnet</projectUrl>
+    <iconUrl>https://github.com/CaptainCodeman/embedly-dotnet/raw/master/pkg/logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Embedly Client for .NET</description>
+    <summary></summary>
+    <language>es-US</language>
+    <tags>embedly</tags>
+    <dependencies>
+      <dependency id="Common.Logging" version="2.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\src\client\bin\Release\Embedly.dll" target="lib\net40"/>
+  </files>
+</package>
