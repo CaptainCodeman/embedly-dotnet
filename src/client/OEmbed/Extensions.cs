@@ -125,6 +125,76 @@ namespace Embedly.OEmbed
 		}
 
 		/// <summary>
+		/// Returns successful results (not exeption during request and no error from embedly).
+		/// </summary>
+		/// <param name="source">The source.</param>
+		/// <returns></returns>
+		public static IEnumerable<Result> Successful(this IEnumerable<Result> source)
+		{
+			return source.Where(result => result.Exception == null && result.Response.Type != ResourceType.Error);
+		}
+
+		/// <summary>
+		/// Returns failed results (exception thrown during request).
+		/// </summary>
+		/// <param name="source">The source.</param>
+		/// <returns></returns>
+		public static IEnumerable<Result> Failed(this IEnumerable<Result> source)
+		{
+			return source.Where(result => result.Exception != null);
+		}
+
+		/// <summary>
+		/// Returns error results (request successful but error returned by embedly for Url).
+		/// </summary>
+		/// <param name="source">The source.</param>
+		/// <returns></returns>
+		public static IEnumerable<Result> Errors(this IEnumerable<Result> source)
+		{
+			return source.Successful().Where(result => result.Response.Type == ResourceType.Error);
+		}
+
+		/// <summary>
+		/// Return link results.
+		/// </summary>
+		/// <param name="source">The source.</param>
+		/// <returns></returns>
+		public static IEnumerable<Result> Links(this IEnumerable<Result> source)
+		{
+			return source.Successful().Where(result => result.Response.Type == ResourceType.Link);
+		}
+
+		/// <summary>
+		/// Return photo results.
+		/// </summary>
+		/// <param name="source">The source.</param>
+		/// <returns></returns>
+		public static IEnumerable<Result> Photos(this IEnumerable<Result> source)
+		{
+			return source.Successful().Where(result => result.Response.Type == ResourceType.Photo);
+		}
+
+		/// <summary>
+		/// Return rich content results.
+		/// </summary>
+		/// <param name="source">The source.</param>
+		/// <returns></returns>
+		public static IEnumerable<Result> Richs(this IEnumerable<Result> source)
+		{
+			return source.Successful().Where(result => result.Response.Type == ResourceType.Rich);
+		}
+
+		/// <summary>
+		/// Return video results.
+		/// </summary>
+		/// <param name="source">The source.</param>
+		/// <returns></returns>
+		public static IEnumerable<Result> Videos(this IEnumerable<Result> source)
+		{
+			return source.Successful().Where(result => result.Response.Type == ResourceType.Video);
+		}
+
+		/// <summary>
 		/// Create the oEmbed request.
 		/// </summary>
 		/// <param name="source">The source.</param>
