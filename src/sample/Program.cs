@@ -159,7 +159,7 @@ namespace Embedly.Sample
 
 		private static void DisplayResults(IEnumerable<Result> results)
 		{
-			foreach (var result in results)
+			foreach (var result in results.Successful())
 			{
 				if (result.Exception == null)
 				{
@@ -176,15 +176,15 @@ namespace Embedly.Sample
 							break;
 						case ResourceType.Photo:
 							var photo = result.Response.AsPhoto;
-							Console.WriteLine("  title:{0} dimensions:{1}x{2}", photo.Title, photo.Width, photo.Height);
+							Console.WriteLine("  title:{0} ({1}x{2})", photo.Title, photo.Width, photo.Height);
 							break;
 						case ResourceType.Rich:
 							var rich = result.Response.AsRich;
-							Console.WriteLine("  title:{0}", rich.Title);
+							Console.WriteLine("  title:{0} ({1}x{2})", rich.Title, rich.Width, rich.Height);
 							break;
 						case ResourceType.Video:
 							var video = result.Response.AsVideo;
-							Console.WriteLine("  title:{0}", video.Title);
+							Console.WriteLine("  title:{0} ({1}x{2})", video.Title, video.Width, video.Height);
 							break;
 					}
 				}
