@@ -22,7 +22,7 @@ namespace Embedly.Sample
 			MultipleFilterByProvider(client);
 			MultipleFilterByType(client);
 			MultipleAll(client);
-			Unsupported(client);
+			SupportedOnly(client);
 
 			Console.WriteLine();
 			Console.WriteLine("Finished");
@@ -130,11 +130,11 @@ namespace Embedly.Sample
 			Console.WriteLine();
 		}
 
-		private static void Unsupported(Client client)
+		private static void SupportedOnly(Client client)
 		{
-			Console.WriteLine("Unsupported");
+			Console.WriteLine("SupportedOnly");
 			var urls = TestUrls();
-			var results = client.GetOEmbeds(urls, new RequestOptions { SupportedOnly = false });
+			var results = client.GetOEmbeds(urls, provider => provider.IsSupported);
 			DisplayResults(results);
 			Console.WriteLine();
 		}
@@ -161,10 +161,9 @@ namespace Embedly.Sample
 		{
 			foreach (var result in results)
 			{
-				var provider = result.Request.Provider == null ? "no provider" : result.Request.Provider.Name;
 				if (result.Exception == null)
 				{
-					Console.WriteLine("{0} found for {1} ({2})", result.Response.Type, result.Request.Url, provider);
+					Console.WriteLine("{0} found for {1} ({2})", result.Response.Type, result.Request.Url, result.Request.Provider.Name);
 					switch (result.Response.Type)
 					{
 						case ResourceType.Error:

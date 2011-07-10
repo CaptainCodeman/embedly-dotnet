@@ -71,9 +71,11 @@ namespace Embedly
 				throw new ArgumentNullException("url");
 
 			if (!url.IsAbsoluteUri)
-				return null;
+				return Provider.Unsupported;
 
-			return Service.Instance.Providers.FirstOrDefault(p => p.IsMatch(url));
+			var result = Service.Instance.Providers.FirstOrDefault(p => p.IsMatch(url));
+
+			return result ?? Provider.Unsupported;
 		}
 	}
 }

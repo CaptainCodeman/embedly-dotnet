@@ -8,6 +8,7 @@
 	/// </remarks>
 	public enum ProviderType
 	{
+		Unsupported,
 		Photo,
 		Video,
 		Link,

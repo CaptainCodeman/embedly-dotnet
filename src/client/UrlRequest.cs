@@ -26,12 +26,6 @@ namespace Embedly
 		/// <summary>
 		/// Initializes a new instance of the <see cref="UrlRequest"/> class.
 		/// </summary>
-		/// <param name="url">The URL.</param>
-		public UrlRequest(Uri url) : this(null, url) { }
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="UrlRequest"/> class.
-		/// </summary>
 		/// <param name="provider">The provider.</param>
 		/// <param name="url">The URL.</param>
 		public UrlRequest(Provider provider, Uri url)

@@ -127,5 +127,40 @@ namespace Embedly
 			}
 			return true;
 		}
+
+		/// <summary>
+		/// Gets a value indicating whether this provider is supported.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if this provider is supported; otherwise, <c>false</c>.
+		/// </value>
+		public bool IsSupported 
+		{
+			get { return Type != ProviderType.Unsupported; }
+		}
+
+		/// <summary>
+		/// Returns a provider to represent unsupported Urls.
+		/// </summary>
+		/// <remarks>
+		/// Null object pattern
+		/// </remarks>
+		internal static Provider Unsupported
+		{
+			get
+			{
+				return new Provider
+				{
+					Name = "unsupported",
+					DisplayName = "Unsupported",
+					About = string.Empty,
+					Domain = string.Empty,
+					Subdomains = new string[] {},
+					Favicon = string.Empty,
+					Regexs = new string[] {},
+					Type = ProviderType.Unsupported
+				};
+			}
+		}
 	}
 }
