@@ -6,10 +6,17 @@ namespace Embedly.OEmbed
 	/// Surrogate class used when deserializing embedly oEmbed response
 	/// </summary>
 	[DataContract]
-	[KnownType(typeof(Error))]
-	[KnownType(typeof(Link))]
-	public class ResponseSurrogate : Response, IExtensibleDataObject
+	public class ResponseSurrogate : IExtensibleDataObject
 	{
+		[DataMember(Name = "type")]
+		public string Type { get; set; }
+
+		/// <summary>
+		/// Gets the version.
+		/// </summary>
+		[DataMember(Name = "version")]
+		public string Version { get; private set; }
+
 		/// <summary>
 		/// Gets or sets the structure that contains extra data.
 		/// </summary>

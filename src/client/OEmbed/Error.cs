@@ -5,6 +5,7 @@ namespace Embedly.OEmbed
 	/// <summary>
 	/// Represents an oEmbed error response
 	/// </summary>
+	[DataContract]
 	public class Error : Response
 	{
 		/// <summary>

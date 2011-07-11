@@ -59,18 +59,12 @@ namespace Embedly.OEmbed
 		/// <summary>
 		/// Gets the width of the thumbnail.
 		/// </summary>
-		/// <value>
-		/// The width of the thumbnail.
-		/// </value>
 		[DataMember(Name = "thumbnail_width")]
 		public int ThumbnailWidth { get; private set; }
 
 		/// <summary>
 		/// Gets the height of the thumbnail.
 		/// </summary>
-		/// <value>
-		/// The height of the thumbnail.
-		/// </value>
 		[DataMember(Name = "thumbnail_height")]
 		public int ThumbnailHeight { get; private set; }
 

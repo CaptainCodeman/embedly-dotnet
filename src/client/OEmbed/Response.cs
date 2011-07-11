@@ -25,6 +25,7 @@ namespace Embedly.OEmbed
 		/// <summary>
 		/// Gets the type.
 		/// </summary>
+		[IgnoreDataMember]
 		public ResourceType Type { get; private set; }
 		
 		/// <summary>
@@ -36,26 +37,31 @@ namespace Embedly.OEmbed
 		/// <summary>
 		/// Gets as error.
 		/// </summary>
+		[IgnoreDataMember]
 		public Error AsError { get { return this as Error; } }
 
 		/// <summary>
 		/// Gets as a link.
 		/// </summary>
+		[IgnoreDataMember]
 		public Link AsLink { get { return this as Link; } }
 
 		/// <summary>
 		/// Gets as a photo.
 		/// </summary>
+		[IgnoreDataMember]
 		public Photo AsPhoto { get { return this as Photo; } }
 
 		/// <summary>
 		/// Gets as rich content.
 		/// </summary>
+		[IgnoreDataMember]
 		public Rich AsRich { get { return this as Rich; } }
 
 		/// <summary>
 		/// Gets as a video.
 		/// </summary>
+		[IgnoreDataMember]
 		public Video AsVideo { get { return this as Video; } }
 	}
 }

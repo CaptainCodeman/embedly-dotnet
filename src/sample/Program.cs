@@ -18,6 +18,7 @@ namespace Embedly.Sample
 			Providers(client);
 			ProviderInformation(client);
 			ProviderPerUrl(client);
+			SingleRich(client);
 			SingleVideo(client);
 			MultipleFilterByProvider(client);
 			MultipleFilterByType(client);
@@ -48,7 +49,7 @@ namespace Embedly.Sample
 		{
 			Console.WriteLine("ProviderInformation");
 
-			var url = TestUrl();
+			var url = TestVideoUrl();
 
 			Console.WriteLine("Url {0}", url);
 			Console.WriteLine();
@@ -70,11 +71,48 @@ namespace Embedly.Sample
 			Console.WriteLine();
 		}
 
+		private static void SingleRich(Client client)
+		{
+			Console.WriteLine("SingleRich");
+
+			var url = TestRichUrl();
+
+			var result = client.GetOEmbed(url, new RequestOptions { MaxWidth = 320 });
+
+			// basic response information
+			var response = result.Response;
+			Console.WriteLine("Type           : {0}", response.Type);
+			Console.WriteLine("Version        : {0}", response.Version);
+
+			// link details
+			var link = result.Response.AsLink;
+			Console.WriteLine("Author         : {0}", link.Author);
+			Console.WriteLine("AuthorUrl      : {0}", link.AuthorUrl);
+			Console.WriteLine("CacheAge       : {0}", link.CacheAge);
+			Console.WriteLine("Description    : {0}", link.Description);
+			Console.WriteLine("Provider       : {0}", link.Provider);
+			Console.WriteLine("ProviderUrl    : {0}", link.ProviderUrl);
+			Console.WriteLine("ThumbnailHeight: {0}", link.ThumbnailHeight);
+			Console.WriteLine("ThumbnailUrl   : {0}", link.ThumbnailUrl);
+			Console.WriteLine("ThumbnailWidth : {0}", link.ThumbnailWidth);
+			Console.WriteLine("Title          : {0}", link.Title);
+			Console.WriteLine("Url            : {0}", link.Url);
+			Console.WriteLine();
+
+			// video specific details
+			var rich = result.Response.AsRich;
+			Console.WriteLine("Width          : {0}", rich.Width);
+			Console.WriteLine("Height         : {0}", rich.Height);
+			Console.WriteLine("Html           : {0}", rich.Html);
+			Console.WriteLine();
+		}
+
+
 		private static void SingleVideo(Client client)
 		{
 			Console.WriteLine("SingleVideo");
 
-			var url = TestUrl();
+			var url = TestVideoUrl();
 
 			var result = client.GetOEmbed(url, new RequestOptions { MaxWidth = 320 });
 			
@@ -87,7 +125,7 @@ namespace Embedly.Sample
 			var link = result.Response.AsLink;
 			Console.WriteLine("Author         : {0}", link.Author);
 			Console.WriteLine("AuthorUrl      : {0}", link.AuthorUrl);
-			Console.WriteLine("CacheAge       : {0}", link.CacheAge);
+			 Console.WriteLine("CacheAge       : {0}", link.CacheAge);
 			Console.WriteLine("Description    : {0}", link.Description);
 			Console.WriteLine("Provider       : {0}", link.Provider);
 			Console.WriteLine("ProviderUrl    : {0}", link.ProviderUrl);
@@ -612,7 +650,12 @@ namespace Embedly.Sample
 			return urls.Select(url => new Uri(url));
 		}
 
-		public static Uri TestUrl()
+		public static Uri TestRichUrl()
+		{
+			return new Uri(@"http://www.amazon.com/Times-They-Are--Changin/dp/B0009MAP9A/ref=sr_1_34?ie=UTF8&qid=1310348558&sr=8-34");
+		}
+
+		public static Uri TestVideoUrl()
 		{
 			return new Uri(@"http://www.youtube.com/watch?v=YwSZvHqf9qM");
 		}

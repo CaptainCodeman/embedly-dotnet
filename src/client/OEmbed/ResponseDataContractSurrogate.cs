@@ -60,19 +60,19 @@ namespace Embedly.OEmbed
 
 				switch (response.Type)
 				{
-					case ResourceType.Error:
+					case "error":
 						typeClass = typeof (Error);
 						break;
-					case ResourceType.Link:
+					case "link":
 						typeClass = typeof (Link);
 						break;
-					case ResourceType.Photo:
+					case "photo":
 						typeClass = typeof (Photo);
 						break;
-					case ResourceType.Rich:
+					case "rich":
 						typeClass = typeof (Rich);
 						break;
-					case ResourceType.Video:
+					case "video":
 						typeClass = typeof (Video);
 						break;
 
