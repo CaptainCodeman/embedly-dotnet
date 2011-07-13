@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Common;
 using System.Linq;
-using Embedly.Caching;
 using Embedly.OEmbed;
 
 namespace Embedly.Sample
@@ -15,10 +14,9 @@ namespace Embedly.Sample
 			var key = ConfigurationManager.AppSettings["embedly.key"];
 			var database = ConfigurationManager.ConnectionStrings["embedly.cache"];
 			var factory = DbProviderFactories.GetFactory(database.ProviderName);
-			var client = new Client(key, new TimeSpan(0, 1, 0), new AdoResponseCache(factory, database.ConnectionString));
 			
-			//var client = new Client(key);
-
+			var client = new Client(key, new AdoResponseCache(factory, database.ConnectionString));
+			
 			Providers(client);
 			ProviderInformation(client);
 			ProviderPerUrl(client);
