@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Embedly
 {
@@ -24,6 +26,11 @@ namespace Embedly
 		public Uri Url { get; set; }
 
 		/// <summary>
+		/// Gets the cache key.
+		/// </summary>
+		public Guid CacheKey { get; private set; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="UrlRequest"/> class.
 		/// </summary>
 		/// <param name="provider">The provider.</param>
@@ -32,6 +39,23 @@ namespace Embedly
 		{
 			Provider = provider;
 			Url = url;
+			CacheKey = GetUrlHash(url);
+		}
+
+		/// <summary>
+		/// Gets a hash of a Url using MD5
+		/// </summary>
+		/// <param name="url">The Url.</param>
+		/// <returns></returns>
+		public static Guid GetUrlHash(Uri url)
+		{
+			var provider = new MD5CryptoServiceProvider();
+
+			var inputBytes = Encoding.Default.GetBytes(url.AbsoluteUri);
+			var hashBytes = provider.ComputeHash(inputBytes);
+
+			var hashGuid = new Guid(hashBytes);
+			return hashGuid;
 		}
 	}
 }

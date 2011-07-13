@@ -37,6 +37,9 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Reactive">
+      <HintPath>..\packages\Rx-Main.1.0.10621\lib\Net4\System.Reactive.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -45,10 +48,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caching\InMemoryResponseCache.cs" />
     <Compile Include="Client.cs" />
+    <Compile Include="DownloadObserver.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Http\HttpWebRequestAsyncState.cs" />
     <Compile Include="Http\HttpWebRequestCallbackState.cs" />
+    <Compile Include="Caching\IResponseCache.cs" />
+    <Compile Include="Caching\NullResponseCache.cs" />
+    <Compile Include="RequestObserver.cs" />
     <Compile Include="OEmbed\Extensions.cs" />
     <Compile Include="OEmbed\Error.cs" />
     <Compile Include="OEmbed\Response.cs" />
@@ -72,6 +80,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Common;
 using System.Linq;
-using System.Text;
-using Embedly;
+using Embedly.Caching;
 using Embedly.OEmbed;
 
 namespace Embedly.Sample
@@ -13,7 +13,11 @@ namespace Embedly.Sample
 		static void Main(string[] args)
 		{
 			var key = ConfigurationManager.AppSettings["embedly.key"];
-			var client = new Client(key);
+			var database = ConfigurationManager.ConnectionStrings["embedly.cache"];
+			var factory = DbProviderFactories.GetFactory(database.ProviderName);
+			var client = new Client(key, new TimeSpan(0, 1, 0), new AdoResponseCache(factory, database.ConnectionString));
+			
+			//var client = new Client(key);
 
 			Providers(client);
 			ProviderInformation(client);

@@ -7,6 +7,8 @@ namespace Embedly.OEmbed
 	/// Represents a base oEmbed response primarily used to identify the type
 	/// </summary>
 	[DataContract]
+	[KnownType(typeof(Error))]
+	[KnownType(typeof(Link))]
 	public class Response
 	{
 		/// <summary>

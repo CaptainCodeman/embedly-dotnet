@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Embedly.Caching;
 
 namespace Embedly
 {
@@ -21,20 +21,41 @@ namespace Embedly
 		public TimeSpan Timeout { get; private set; }
 
 		/// <summary>
+		/// Gets the response cache.
+		/// </summary>
+		public IResponseCache Cache { get; private set; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="Client"/> class.
 		/// </summary>
 		/// <param name="key">The key.</param>
-		public Client(string key) : this(key, new TimeSpan(0, 0, 30)) { }
+		public Client(string key) : this(key, new TimeSpan(0, 0, 30), new NullResponseCache()) { }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Client"/> class.
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <param name="timeout">The timeout.</param>
-		public Client(string key, TimeSpan timeout)
+		public Client(string key, TimeSpan timeout) : this(key, timeout, new NullResponseCache()) { }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Client"/> class.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="cache">The response cache.</param>
+		public Client(string key, IResponseCache cache) : this(key, new TimeSpan(0, 0, 30), cache) { }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Client"/> class.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="timeout">The timeout.</param>
+		/// <param name="cache">The response cache.</param>
+		public Client(string key, TimeSpan timeout, IResponseCache cache)
 		{
 			Key = key;
 			Timeout = timeout;
+			Cache = cache;
 		}
 
 		/// <summary>

@@ -6,6 +6,9 @@ namespace Embedly.OEmbed
 	/// Represents an oEmbed link response
 	/// </summary>
 	[DataContract]
+	[KnownType(typeof(Photo))]
+	[KnownType(typeof(Rich))]
+	[KnownType(typeof(Video))]
 	public class Link : Response
 	{
 		/// <summary>
