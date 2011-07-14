@@ -13,7 +13,7 @@ namespace Embedly.Caching
 			return null;
 		}
 
-		public void Put(UrlRequest request, Response value)
+		public void Put(UrlRequest request, Response response)
 		{
 			// no-op
 		}

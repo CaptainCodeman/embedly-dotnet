@@ -19,7 +19,7 @@ namespace Embedly.Caching
 		/// Caches the response for the specified request.
 		/// </summary>
 		/// <param name="request">The request.</param>
-		/// <param name="value">The value.</param>
-		void Put(UrlRequest request, Response value);
+		/// <param name="response">The response.</param>
+		void Put(UrlRequest request, Response response);
 	}
 }
