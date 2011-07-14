@@ -53,6 +53,9 @@ namespace Embedly
 		/// <param name="cache">The response cache.</param>
 		public Client(string key, TimeSpan timeout, IResponseCache cache)
 		{
+			if (string.IsNullOrEmpty(key))
+				throw new ArgumentException("Embedly account key cannot be empty", "key");
+
 			Key = key;
 			Timeout = timeout;
 			Cache = cache;

@@ -13,25 +13,34 @@ namespace Embedly.Sample
 		{
 			var key = ConfigurationManager.AppSettings["embedly.key"];
 			var database = ConfigurationManager.ConnectionStrings["embedly.cache"];
-			
-			// using the Ado Cache
-			// var factory = DbProviderFactories.GetFactory(database.ProviderName);
-			// var cache = new AdoResponseCache(factory, database.ConnectionString);
+
+			// using the Ado Cache (e.g. SQL Server)
+			/*
+			var factory = DbProviderFactories.GetFactory(database.ProviderName);
+			var cache = new AdoResponseCache(factory, database.ConnectionString);
+			*/
 			
 			// using the MongoDB Cache
 			var cache = new MongoResponseCache(database.ConnectionString);
+			
+			try
+			{
+				var client = new Client(key, cache);
 
-			var client = new Client(key, cache);
-
-			Providers(client);
-			ProviderInformation(client);
-			ProviderPerUrl(client);
-			SingleRich(client);
-			SingleVideo(client);
-			MultipleFilterByProvider(client);
-			MultipleFilterByType(client);
-			MultipleAll(client);
-			SupportedOnly(client);
+				Providers(client);
+				ProviderInformation(client);
+				ProviderPerUrl(client);
+				SingleRich(client);
+				SingleVideo(client);
+				MultipleFilterByProvider(client);
+				MultipleFilterByType(client);
+				MultipleAll(client);
+				SupportedOnly(client);
+			}
+			catch (ArgumentException)
+			{
+				Console.WriteLine("Enter your embedly account key in the config file");
+			}
 
 			Console.WriteLine();
 			Console.WriteLine("Finished");
@@ -216,18 +225,22 @@ namespace Embedly.Sample
 						case ResourceType.Link:
 							var link = result.Response.AsLink;
 							Console.WriteLine("  title:{0}", link.Title);
+							Console.WriteLine("  url:{0}", link.Url);
 							break;
 						case ResourceType.Photo:
 							var photo = result.Response.AsPhoto;
 							Console.WriteLine("  title:{0} ({1}x{2})", photo.Title, photo.Width, photo.Height);
+							Console.WriteLine("  url:{0}", photo.Url);
 							break;
 						case ResourceType.Rich:
 							var rich = result.Response.AsRich;
 							Console.WriteLine("  title:{0} ({1}x{2})", rich.Title, rich.Width, rich.Height);
+							Console.WriteLine("  url:{0}", rich.Url);
 							break;
 						case ResourceType.Video:
 							var video = result.Response.AsVideo;
 							Console.WriteLine("  title:{0} ({1}x{2})", video.Title, video.Width, video.Height);
+							Console.WriteLine("  url:{0}", video.Url);
 							break;
 					}
 				}
