@@ -153,10 +153,7 @@ namespace Embedly.Sample
 			foreach (var url in urls)
 			{
 				var provider = client.GetProvider(url);
-				if (provider == null)
-					Console.WriteLine("No provider for {0}", url);
-				else
-					Console.WriteLine("{0} handles {1}", provider.Name, url);
+				Console.WriteLine("{0} handles {1}", provider.Name, url);
 			}
 			Console.WriteLine();
 		}
