@@ -9,17 +9,17 @@ namespace Embedly.Caching
 	public interface IResponseCache
 	{
 		/// <summary>
-		/// Gets the cached response for the specified key.
+		/// Gets the cached response for the specified request.
 		/// </summary>
-		/// <param name="key">The key.</param>
+		/// <param name="request">The request.</param>
 		/// <returns></returns>
-		Response Get(Guid key);
-		
+		Response Get(UrlRequest request);
+
 		/// <summary>
-		/// Caches the response for the specified key.
+		/// Caches the response for the specified request.
 		/// </summary>
-		/// <param name="key">The key.</param>
+		/// <param name="request">The request.</param>
 		/// <param name="value">The value.</param>
-		void Put(Guid key, Response value);
+		void Put(UrlRequest request, Response value);
 	}
 }

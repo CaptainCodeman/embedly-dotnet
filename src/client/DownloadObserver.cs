@@ -50,7 +50,7 @@ namespace Embedly
 			            var responses = Deserialize(callbackState.ResponseStream);
 			            for (var i = 0; i < state.UrlRequests.Length; i++)
 			            {
-			                _cache.Put(state.UrlRequests[i].CacheKey, responses[i]);
+			                _cache.Put(state.UrlRequests[i], responses[i]);
 			                _results.OnNext(new Result(state.UrlRequests[i], responses[i]));
 			            }
 			        }

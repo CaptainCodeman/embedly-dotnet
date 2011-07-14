@@ -26,7 +26,6 @@ namespace Embedly
 			{
 				cm.AutoMap();
 				cm.MapProperty(x => x.Type).SetRepresentation(BsonType.String);
-				cm.SetIgnoreExtraElements(true);
 			});
 
 			BsonClassMap.RegisterClassMap<Error>();
@@ -36,20 +35,21 @@ namespace Embedly
 			BsonClassMap.RegisterClassMap<Video>();
 		}
 
-		public Response Get(Guid key)
+		public Response Get(UrlRequest request)
 		{
 			var database = MongoDatabase.Create(_connectionString);
 			var collection = database.GetCollection(_settings);
-			var cacheItem = collection.FindOneById(key);
+			var cacheItem = collection.FindOneById(request.CacheKey);
+
 			return cacheItem == null ? null : cacheItem.Response;
 		}
 
-		public void Put(Guid key, Response value)
+		public void Put(UrlRequest request, Response response)
 		{
 			var database = MongoDatabase.Create(_connectionString);
 			var collection = database.GetCollection(_settings);
+			var cacheItem = new MongoCacheItem(request.CacheKey, request.Url, response);
 
-			var cacheItem = new MongoCacheItem(key, value);
 			collection.Insert(cacheItem);
 		}
 	}

@@ -14,12 +14,12 @@ namespace Embedly.Caching
 		/// <summary>
 		/// Gets the cached response for the specified key.
 		/// </summary>
-		/// <param name="key">The key.</param>
+		/// <param name="request">The request.</param>
 		/// <returns></returns>
-		public Response Get(Guid key)
+		public Response Get(UrlRequest request)
 		{
-			if (_cache.ContainsKey(key))
-				return _cache[key];
+			if (_cache.ContainsKey(request.CacheKey))
+				return _cache[request.CacheKey];
 
 			return null;
 		}
@@ -27,11 +27,11 @@ namespace Embedly.Caching
 		/// <summary>
 		/// Caches the response for the specified key.
 		/// </summary>
-		/// <param name="key">The key.</param>
+		/// <param name="request">The request.</param>
 		/// <param name="value">The value.</param>
-		public void Put(Guid key, Response value)
+		public void Put(UrlRequest request, Response value)
 		{
-			_cache.Add(key, value);
+			_cache.Add(request.CacheKey, value);
 		}
 	}
 }

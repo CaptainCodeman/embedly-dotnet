@@ -20,7 +20,7 @@ namespace Embedly.Sample
 			_connectionString = connectionString;
 		}
 
-		public Response Get(Guid key)
+		public Response Get(UrlRequest request)
 		{
 			using (var connection = _factory.CreateConnection())
 			{
@@ -34,7 +34,7 @@ namespace Embedly.Sample
 				pKey.DbType = DbType.Guid;
 				pKey.Direction = ParameterDirection.Input;
 				pKey.ParameterName = "key";
-				pKey.Value = key;
+				pKey.Value = request.CacheKey;
 
 				cmd.Parameters.Add(pKey);
 
@@ -52,7 +52,7 @@ namespace Embedly.Sample
 			}
 		}
 
-		public void Put(Guid key, Response value)
+		public void Put(UrlRequest request, Response value)
 		{
 			string valueString;
 			using (var ms = new MemoryStream())
@@ -69,13 +69,25 @@ namespace Embedly.Sample
 				connection.Open();
 
 				var cmd = connection.CreateCommand();
-				cmd.CommandText = "insert into Response ([key], [value]) values (@key, @value)";
+				cmd.CommandText = "insert into Response ([Key], [Url], [CachedOn], [Value]) values (@key, @url, @cachedOn, @value)";
 
 				var pKey = cmd.CreateParameter();
 				pKey.DbType = DbType.Guid;
 				pKey.Direction = ParameterDirection.Input;
 				pKey.ParameterName = "key";
-				pKey.Value = key;
+				pKey.Value = request.CacheKey;
+
+				var pUrl = cmd.CreateParameter();
+				pUrl.DbType = DbType.AnsiString;
+				pUrl.Direction = ParameterDirection.Input;
+				pUrl.ParameterName = "url";
+				pUrl.Value = request.Url.AbsoluteUri;
+
+				var pCachedOn = cmd.CreateParameter();
+				pCachedOn.DbType = DbType.DateTime;
+				pCachedOn.Direction = ParameterDirection.Input;
+				pCachedOn.ParameterName = "cachedOn";
+				pCachedOn.Value = DateTime.UtcNow;
 
 				var pValue = cmd.CreateParameter();
 				pValue.DbType = DbType.String;
@@ -84,6 +96,8 @@ namespace Embedly.Sample
 				pValue.Value = valueString;
 
 				cmd.Parameters.Add(pKey);
+				cmd.Parameters.Add(pUrl);
+				cmd.Parameters.Add(pCachedOn);
 				cmd.Parameters.Add(pValue);
 
 				cmd.ExecuteNonQuery();

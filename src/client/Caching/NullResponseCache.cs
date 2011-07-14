@@ -8,12 +8,12 @@ namespace Embedly.Caching
 	/// </summary>
 	public class NullResponseCache : IResponseCache
 	{
-		public Response Get(Guid key)
+		public Response Get(UrlRequest request)
 		{
 			return null;
 		}
 
-		public void Put(Guid key, Response value)
+		public void Put(UrlRequest request, Response value)
 		{
 			// no-op
 		}

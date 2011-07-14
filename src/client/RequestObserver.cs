@@ -56,7 +56,7 @@ namespace Embedly
 		/// <param name="value">The value.</param>
 		public void OnNext(UrlRequest value)
 		{
-			var response = _cache.Get(value.CacheKey);
+			var response = _cache.Get(value);
 			if (response == null)
 			{
 				// push to processing
