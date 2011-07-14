@@ -10,15 +10,26 @@ Available as a [NuGet Package](http://nuget.org/List/Packages/embedly)
 * Auto batching of url lookups
 * Async downloading with configurable timeout
 * Request filtering based on provider properties 
+* Caching of embedly responses to prevent re-requesting urls
 
 ## Examples
 See the sample project for complete examples.
 
 ### Create an Embed.ly client
-The client handles all interaction with embedly and requires a key to use.
+The client handles all interaction with embedly and requires a key to use. No caching will be performed by default.
 
     var key = ConfigurationManager.AppSettings["embedly.key"];
     var client = new Client(key);
+
+### Use a Cahce
+A cache (implementing a simple `IResponseCache` interface) can be passed to the `Client` constructor and ensures any requests to previously requested urls are served from the cache instead of being re-requested.
+
+    var key = ConfigurationManager.AppSettings["embedly.key"];
+    var database = ConfigurationManager.ConnectionStrings["embedly.cache"];
+    var cache = new MongoResponseCache(database.ConnectionString);
+    var client = new Client(key, cache);
+
+Example `InMemoryResponseCache`, `MongoResponseCache` (MongoDB) and `AdoResponseCache` (e.g. SQL Server) implementation are included.
 
 ### Check if URL supported by Embed.ly
 This is used internally to ensure the only Urls sent to embedly are supported ones. 
