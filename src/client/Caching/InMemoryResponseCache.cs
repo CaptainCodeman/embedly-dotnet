@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Caching;
 using Embedly.OEmbed;
 
 namespace Embedly.Caching
 {
 	/// <summary>
-	/// Simple, dictionary based, in-memory cache implementation
+	/// In-memory cache implementation using the System.Runtime.Caching.MemoryCache
 	/// </summary>
 	public class InMemoryResponseCache : IResponseCache
 	{
-		private readonly IDictionary<Guid, Response> _cache = new Dictionary<Guid, Response>();
+		private readonly TimeSpan _expiration;
+
+		public InMemoryResponseCache(TimeSpan expiration)
+		{
+			_expiration = expiration;
+		}
 
 		/// <summary>
 		/// Gets the cached response for the specified key.
@@ -18,20 +24,25 @@ namespace Embedly.Caching
 		/// <returns></returns>
 		public Response Get(UrlRequest request)
 		{
-			if (_cache.ContainsKey(request.CacheKey))
-				return _cache[request.CacheKey];
-
-			return null;
+			var cache = MemoryCache.Default;
+			var response = (Response)cache.Get(request.CacheKey.ToString());
+			return response;
 		}
 
 		/// <summary>
 		/// Caches the response for the specified key.
 		/// </summary>
 		/// <param name="request">The request.</param>
-		/// <param name="value">The value.</param>
-		public void Put(UrlRequest request, Response value)
+		/// <param name="response">The response.</param>
+		public void Put(UrlRequest request, Response response)
 		{
-			_cache.Add(request.CacheKey, value);
+			var cache = MemoryCache.Default;
+			var policy = new CacheItemPolicy
+			{
+			    AbsoluteExpiration = DateTimeOffset.Now.Add(_expiration)
+				// SlidingExpiration = _expiration
+			};
+			cache.Add(request.CacheKey.ToString(), response, policy);
 		}
 	}
 }

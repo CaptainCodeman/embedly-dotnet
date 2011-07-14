@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Common;
 using System.Linq;
+using Embedly.Caching;
 using Embedly.OEmbed;
 
 namespace Embedly.Sample
@@ -13,6 +14,11 @@ namespace Embedly.Sample
 		{
 			var key = ConfigurationManager.AppSettings["embedly.key"];
 			var database = ConfigurationManager.ConnectionStrings["embedly.cache"];
+
+			// using the in memory Cache
+			/*
+			var cache = new InMemoryResponseCache(new TimeSpan(24, 0, 0));
+			*/
 
 			// using the Ado Cache (e.g. SQL Server)
 			/*
