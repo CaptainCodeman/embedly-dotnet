@@ -57,6 +57,10 @@
       <Project>{AF53B003-0583-4A31-B89B-5036EB46A3A1}</Project>
       <Name>client</Name>
     </ProjectReference>
+    <ProjectReference Include="..\mongodb\mongodb.csproj">
+      <Project>{080ECEB0-1244-44B5-9BD9-B8BA22E061CA}</Project>
+      <Name>mongodb</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

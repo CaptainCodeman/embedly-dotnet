@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution", "solution", "{16
 		..\readme.markdown = ..\readme.markdown
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mongodb", "mongodb\mongodb.csproj", "{080ECEB0-1244-44B5-9BD9-B8BA22E061CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,16 @@ Global
 		{38597624-3D33-40D7-B8C0-D0F40CC8743E}.Release|Mixed Platforms.Build.0 = Release|x86
 		{38597624-3D33-40D7-B8C0-D0F40CC8743E}.Release|x86.ActiveCfg = Release|x86
 		{38597624-3D33-40D7-B8C0-D0F40CC8743E}.Release|x86.Build.0 = Release|x86
+		{080ECEB0-1244-44B5-9BD9-B8BA22E061CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{080ECEB0-1244-44B5-9BD9-B8BA22E061CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{080ECEB0-1244-44B5-9BD9-B8BA22E061CA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{080ECEB0-1244-44B5-9BD9-B8BA22E061CA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{080ECEB0-1244-44B5-9BD9-B8BA22E061CA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{080ECEB0-1244-44B5-9BD9-B8BA22E061CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{080ECEB0-1244-44B5-9BD9-B8BA22E061CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{080ECEB0-1244-44B5-9BD9-B8BA22E061CA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{080ECEB0-1244-44B5-9BD9-B8BA22E061CA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{080ECEB0-1244-44B5-9BD9-B8BA22E061CA}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

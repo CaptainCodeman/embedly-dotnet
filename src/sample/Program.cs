@@ -13,10 +13,16 @@ namespace Embedly.Sample
 		{
 			var key = ConfigurationManager.AppSettings["embedly.key"];
 			var database = ConfigurationManager.ConnectionStrings["embedly.cache"];
-			var factory = DbProviderFactories.GetFactory(database.ProviderName);
 			
-			var client = new Client(key, new AdoResponseCache(factory, database.ConnectionString));
+			// using the Ado Cache
+			// var factory = DbProviderFactories.GetFactory(database.ProviderName);
+			// var cache = new AdoResponseCache(factory, database.ConnectionString);
 			
+			// using the MongoDB Cache
+			var cache = new MongoResponseCache(database.ConnectionString);
+
+			var client = new Client(key, cache);
+
 			Providers(client);
 			ProviderInformation(client);
 			ProviderPerUrl(client);
