@@ -21,7 +21,7 @@ The client handles all interaction with embedly and requires a key to use. No ca
     var key = ConfigurationManager.AppSettings["embedly.key"];
     var client = new Client(key);
 
-### Use a Cahce
+### Use a Cache
 A cache (implementing a simple `IResponseCache` interface) can be passed to the `Client` constructor and ensures any requests to previously requested urls are served from the cache instead of being re-requested.
 
     var key = ConfigurationManager.AppSettings["embedly.key"];
