@@ -13,6 +13,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution", "solution", "{16
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mongodb", "mongodb\mongodb.csproj", "{080ECEB0-1244-44B5-9BD9-B8BA22E061CA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "package", "package", "{07A74099-6EAE-4899-ADF9-9389C24E9B87}"
+	ProjectSection(SolutionItems) = preProject
+		..\pkg\embedly-dotnet.mongodb.nuspec = ..\pkg\embedly-dotnet.mongodb.nuspec
+		..\pkg\embedly-dotnet.nuspec = ..\pkg\embedly-dotnet.nuspec
+		..\pkg\logo.png = ..\pkg\logo.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

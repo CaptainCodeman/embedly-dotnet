@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>embedly-mongodb</id>
+    <version>0.4</version>
+    <title>MongoDB Cache provider for Embedly Client for .NET</title>
+    <authors>Simon Green</authors>
+    <owners>Simon Green</owners>
+    <projectUrl>https://github.com/CaptainCodeman/embedly-dotnet</projectUrl>
+    <iconUrl>https://github.com/CaptainCodeman/embedly-dotnet/raw/master/pkg/logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>MongoDB Cache provider for Embedly Client for .NET</description>
+    <summary></summary>
+    <language>en-US</language>
+    <tags>embedly,oembed,mongodb</tags>
+    <dependencies>
+      <dependency id="embedly" version="0.4" />
+      <dependency id="mongocsharpdriver" version="1.1" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\src\mongodb\bin\Release\Embedly.MongoDB.dll" target="lib\net40"/>
+  </files>
+</package>
