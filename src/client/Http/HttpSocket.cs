@@ -60,12 +60,16 @@ namespace Embedly.Http
 			}
 			catch (Exception ex)
 			{
-				Log.Warn("BeginGetResponseCallback", ex);
-
 				if (asyncState != null)
+				{
+					Log.WarnFormat("Exception requesting url: {0}", ex, asyncState.HttpWebRequest.RequestUri);
 					asyncState.ResponseCallback(new HttpWebRequestCallbackState(ex, asyncState.State));
+				}
 				else
+				{
+					Log.Warn("BeginGetResponseCallback", ex);
 					throw;
+				}
 			}
 			finally
 			{
@@ -102,7 +106,7 @@ namespace Embedly.Http
 
 			var request = state as HttpWebRequest;
 
-			Log.Warn(m => m("Request Timeout: {0}", request.RequestUri));
+			Log.Warn(m => m("Timeout requesting url: {0}", request.RequestUri));
 
 			if (request != null)
 				request.Abort();
@@ -126,7 +130,7 @@ namespace Embedly.Http
 			}
 			catch (Exception ex)
 			{
-				Log.Warn("Exception creating Web Request", ex);
+				Log.WarnFormat("Exception creating WebRequest for url: {0}", ex, url);
 				responseCallback(new HttpWebRequestCallbackState(ex, state));
 				return;
 			}

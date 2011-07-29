@@ -3,6 +3,7 @@ using System.IO;
 using System.Reactive.Subjects;
 using System.Runtime.Serialization.Json;
 using System.Threading;
+using Common.Logging;
 using Embedly.Caching;
 using Embedly.Http;
 using Embedly.OEmbed;
@@ -14,6 +15,8 @@ namespace Embedly
 	/// </summary>
 	internal class DownloadObserver : IObserver<EmbedlyRequest>
 	{
+		private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
 		private readonly Subject<Result> _results;
 		private readonly TimeSpan _timeout;
 		private readonly IResponseCache _cache;
@@ -40,6 +43,7 @@ namespace Embedly
 		{
 			Interlocked.Increment(ref _count);
 
+			Log.DebugFormat("Http request for url: {0}", value.EmbedlyUrl);
 			HttpSocket.GetAsync(value.EmbedlyUrl.AbsoluteUri, _timeout, callbackState =>
 			{
 			    var state = (EmbedlyRequest) callbackState.State;
@@ -48,6 +52,7 @@ namespace Embedly
 			        var responses = Deserialize(callbackState.ResponseStream);
 			        for (var i = 0; i < state.UrlRequests.Length; i++)
 			        {
+						Log.DebugFormat("Response for url: {0} was {1} from {2}", state.UrlRequests[i].Url, responses[i].Type, state.UrlRequests[i].Provider.Name);
 			            _cache.Put(state.UrlRequests[i], responses[i]);
 			            _results.OnNext(new Result(state.UrlRequests[i], responses[i]));
 			        }
@@ -74,6 +79,7 @@ namespace Embedly
 		public void OnError(Exception error)
 		{
 			//
+			Log.Error("Exception observing requests", error);
 		}
 
 		/// <summary>
@@ -82,7 +88,10 @@ namespace Embedly
 		public void OnCompleted()
 		{
 			if (Interlocked.CompareExchange(ref _count, 0, 0) == 0)
+			{
+				Log.DebugFormat("Completed");
 				_results.OnCompleted();
+			}
 		}
 
 		/// <summary>

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using Common.Logging;
 using Embedly.Caching;
 using Embedly.OEmbed;
 
@@ -13,6 +14,8 @@ namespace Embedly
 	/// </summary>
 	internal class RequestObserver : IObserver<UrlRequest>
 	{
+		private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
 		private readonly IResponseCache _cache;
 		private readonly Subject<Result> _cachedResults;
 		private readonly Subject<UrlRequest> _downloadRequired;
@@ -60,11 +63,13 @@ namespace Embedly
 			if (response == null)
 			{
 				// push to processing
+				Log.DebugFormat("Download needed for url: {0}", value.Url);
 				_downloadRequired.OnNext(value);
 			}
 			else
 			{
 				// push to cached results
+				Log.DebugFormat("Cached response found for url: {0}", value.Url);
 				_cachedResults.OnNext(new Result(value, response));
 			}
 		}
@@ -76,6 +81,7 @@ namespace Embedly
 		public void OnError(Exception error)
 		{
 			// TODO: Handle exceptions
+			Log.Error("Exception observing requests", error);
 		}
 
 		/// <summary>
@@ -83,6 +89,7 @@ namespace Embedly
 		/// </summary>
 		public void OnCompleted()
 		{
+			Log.DebugFormat("Completed");
 			_cachedResults.OnCompleted();
 			_downloadRequired.OnCompleted();
 		}

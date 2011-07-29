@@ -16,9 +16,7 @@ namespace Embedly.Sample
 			var database = ConfigurationManager.ConnectionStrings["embedly.cache"];
 
 			// using the in memory Cache
-			/*
 			var cache = new InMemoryResponseCache(new TimeSpan(24, 0, 0));
-			*/
 
 			// using the Ado Cache (e.g. SQL Server)
 			/*
@@ -27,21 +25,21 @@ namespace Embedly.Sample
 			*/
 			
 			// using the MongoDB Cache
-			var cache = new MongoResponseCache(database.ConnectionString);
+			// var cache = new MongoResponseCache(database.ConnectionString);
 			
 			try
 			{
 				var client = new Client(key, cache);
 
-				Providers(client);
-				ProviderInformation(client);
-				ProviderPerUrl(client);
-				SingleRich(client);
-				SingleVideo(client);
-				MultipleFilterByProvider(client);
-				MultipleFilterByType(client);
-				MultipleAll(client);
-				SupportedOnly(client);
+				//Providers(client);
+				//ProviderInformation(client);
+				//ProviderPerUrl(client);
+				//SingleRich(client);
+				//SingleVideo(client);
+				//MultipleFilterByProvider(client);
+				//MultipleFilterByType(client);
+				//MultipleAll(client);
+				UrlNotFound(client);
 			}
 			catch (ArgumentException)
 			{
@@ -130,6 +128,14 @@ namespace Embedly.Sample
 			Console.WriteLine();
 		}
 
+		private static void UrlNotFound(Client client)
+		{
+			Console.WriteLine("UrlNotFound");
+
+			var url = new Uri(@"http://vimeo.com/12345678");
+
+			var result = client.GetOEmbed(url, new RequestOptions {MaxWidth = 320});
+		}
 
 		private static void SingleVideo(Client client)
 		{
