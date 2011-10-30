@@ -12,14 +12,10 @@ namespace Embedly
 {
 	public class MongoResponseCache : IResponseCache
 	{
-		private readonly string _connectionString;
-		private readonly MongoCollectionSettings<MongoCacheItem> _settings;
+		private readonly MongoCollection<MongoCacheItem> _collection;
 
 		public MongoResponseCache(string connectionString)
 		{
-			_connectionString = connectionString;
-			_settings = new MongoCollectionSettings<MongoCacheItem>("embedly", false, BsonDefaults.GuidRepresentation, SafeMode.False, true);
-
 			BsonDefaultSerializer.RegisterDiscriminatorConvention(typeof(Response), new TypeDiscriminatorConvention());
 
 			BsonClassMap.RegisterClassMap<Response>(cm =>
@@ -33,24 +29,22 @@ namespace Embedly
 			BsonClassMap.RegisterClassMap<Photo>();
 			BsonClassMap.RegisterClassMap<Rich>();
 			BsonClassMap.RegisterClassMap<Video>();
+
+			var database = MongoDatabase.Create(connectionString);
+			var settings = new MongoCollectionSettings<MongoCacheItem>(database, "embedly");
+			_collection = database.GetCollection(settings);
 		}
 
 		public Response Get(UrlRequest request)
 		{
-			var database = MongoDatabase.Create(_connectionString);
-			var collection = database.GetCollection(_settings);
-			var cacheItem = collection.FindOneById(request.CacheKey);
-
+			var cacheItem = _collection.FindOneById(request.CacheKey);
 			return cacheItem == null ? null : cacheItem.Response;
 		}
 
 		public void Put(UrlRequest request, Response response)
 		{
-			var database = MongoDatabase.Create(_connectionString);
-			var collection = database.GetCollection(_settings);
 			var cacheItem = new MongoCacheItem(request.CacheKey, request.Url, response);
-
-			collection.Insert(cacheItem);
+			_collection.Insert(cacheItem);
 		}
 	}
 }

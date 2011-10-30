@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>embedly-mongodb</id>
-    <version>0.4</version>
+    <version>0.6</version>
     <title>MongoDB Cache provider for Embedly Client for .NET</title>
     <authors>Simon Green</authors>
     <owners>Simon Green</owners>
@@ -14,8 +14,8 @@
     <language>en-US</language>
     <tags>embedly,oembed,mongodb</tags>
     <dependencies>
-      <dependency id="embedly" version="0.4" />
-      <dependency id="mongocsharpdriver" version="1.1" />
+      <dependency id="embedly" version="0.6" />
+      <dependency id="mongocsharpdriver" version="1.3" />
     </dependencies>
   </metadata>
   <files>
