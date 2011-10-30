@@ -89,7 +89,6 @@ namespace Embedly
 		{
 			if (Interlocked.CompareExchange(ref _count, 0, 0) == 0)
 			{
-				Log.DebugFormat("Completed");
 				_results.OnCompleted();
 			}
 		}

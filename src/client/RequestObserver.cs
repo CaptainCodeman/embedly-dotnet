@@ -89,7 +89,6 @@ namespace Embedly
 		/// </summary>
 		public void OnCompleted()
 		{
-			Log.DebugFormat("Completed");
 			_cachedResults.OnCompleted();
 			_downloadRequired.OnCompleted();
 		}
