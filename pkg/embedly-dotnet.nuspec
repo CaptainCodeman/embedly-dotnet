@@ -14,8 +14,8 @@
     <language>en-US</language>
     <tags>embedly,oembed</tags>
     <dependencies>
-      <dependency id="Rx-Main" version="1.0.10621" />
-      <dependency id="Common.Logging" version="2.0" />
+      <dependency id="Rx-Main" version="1.0.11226" />
+      <dependency id="Common.Logging" version="2.1.1" />
     </dependencies>
   </metadata>
   <files>
