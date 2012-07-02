@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>embedly-mongodb</id>
-    <version>0.6</version>
+    <version>0.7</version>
     <title>MongoDB Cache provider for Embedly Client for .NET</title>
     <authors>Simon Green</authors>
     <owners>Simon Green</owners>
