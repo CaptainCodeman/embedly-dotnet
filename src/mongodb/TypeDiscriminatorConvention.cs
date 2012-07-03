@@ -18,7 +18,7 @@ namespace Embedly
 			if (bsonReader.FindElement("Type"))
 			{
 				var discriminator = BsonValue.ReadFrom(bsonReader);
-				actualType = BsonDefaultSerializer.LookupActualType(nominalType, discriminator);
+				actualType = BsonSerializer.LookupActualType(nominalType, discriminator);
 			}
 			bsonReader.ReturnToBookmark(bookmark);
 			return actualType;

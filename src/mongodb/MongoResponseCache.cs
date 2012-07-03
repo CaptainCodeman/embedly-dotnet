@@ -16,7 +16,7 @@ namespace Embedly
 
 		public MongoResponseCache(string connectionString)
 		{
-			BsonDefaultSerializer.RegisterDiscriminatorConvention(typeof(Response), new TypeDiscriminatorConvention());
+			BsonSerializer.RegisterDiscriminatorConvention(typeof(Response), new TypeDiscriminatorConvention());
 
 			BsonClassMap.RegisterClassMap<Response>(cm =>
 			{
