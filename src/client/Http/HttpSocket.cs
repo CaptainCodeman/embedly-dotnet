@@ -32,7 +32,7 @@ namespace Embedly.Http
 
 			httpWebRequest.ContentType = contentType;
 			httpWebRequest.Method = httpMethod;
-			httpWebRequest.Accept = "gzip, deflate";	// use http compression
+			httpWebRequest.Headers[HttpRequestHeader.AcceptEncoding] = "gzip, deflate"; // use http compression
 
 			return httpWebRequest;
 		}
