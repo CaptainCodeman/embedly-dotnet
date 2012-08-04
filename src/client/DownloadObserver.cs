@@ -43,14 +43,14 @@ namespace Embedly
 		{
 			Interlocked.Increment(ref _count);
 
-			Log.DebugFormat("Http request for url: {0}", value.EmbedlyUrl);
+			Log.DebugFormat("Http request for {0} urls: {1}", value.UrlRequests.Count, value.EmbedlyUrl);
 			HttpSocket.GetAsync(value.EmbedlyUrl.AbsoluteUri, _timeout, callbackState =>
 			{
 			    var state = (EmbedlyRequest) callbackState.State;
 			    if (callbackState.Exception == null)
 			    {
 			        var responses = Deserialize(callbackState.ResponseStream);
-			        for (var i = 0; i < state.UrlRequests.Length; i++)
+                    for (var i = 0; i < state.UrlRequests.Count; i++)
 			        {
 						Log.DebugFormat("Response for url: {0} was {1} from {2}", state.UrlRequests[i].Url, responses[i].Type, state.UrlRequests[i].Provider.Name);
 			            _cache.Put(state.UrlRequests[i], responses[i]);

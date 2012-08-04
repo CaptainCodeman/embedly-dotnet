@@ -33,14 +33,15 @@ namespace Embedly
 			_downloadedResults = new Subject<Result>();
 			_downloadRequired = new Subject<UrlRequest>();
 
-			var downloader = new DownloadObserver(client.Cache, client.Timeout, _downloadedResults);
+			var downloader = new DownloadObserver(client.Cache, client.RequestTimeout, _downloadedResults);
 
-			_downloadRequired.ObserveOn(Scheduler.NewThread)
-				.Buffer(20)
+			_downloadRequired
+                .Buffer(client.BufferTimeout, 20)
+                .Where(reqs => reqs.Count > 0)
 				.Select(reqs =>
 				    new EmbedlyRequest(
-				        new Uri(@"http://api.embed.ly/1/oembed?format=json&key=" + client.Key + @"&urls=" + string.Join(",", reqs.Select(req => Uri.EscapeDataString(req.Url.AbsoluteUri))) + options.GetQueryString()),
-				        reqs.ToArray()
+				        new Uri(@"http://api.embed.ly/1/oembed?format=json&key=" + client.Key + @"&urls=" + string.Join(",", reqs.Select(req => Uri.EscapeDataString(req.Url.OriginalString))) + options.GetQueryString()),
+				        reqs
 				    )
 				)
 				.Subscribe(downloader);

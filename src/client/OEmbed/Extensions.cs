@@ -108,28 +108,40 @@ namespace Embedly.OEmbed
 		/// <returns></returns>
 		public static IEnumerable<Result> GetOEmbeds(this Client client, IEnumerable<Uri> urls, Func<Provider, bool> providerFilter, RequestOptions options)
 		{
-			if (urls == null)
-				throw new ArgumentNullException("urls");
+            var results = new BlockingCollection<Result>();
 
-			if (options == null)
-				throw new ArgumentNullException("options");
-
-			var results = new BlockingCollection<Result>();
-
-			var requests = urls
-				.MakeUrlRequests(client)
-				.WhereProvider(providerFilter);
-
-			var redirector = new RequestObserver(client, options);
-			var observable = requests.ToObservable();
-
-			redirector.Output.Subscribe(results.Add, ex => { }, results.CompleteAdding);
-
-			using (var subscription = observable.Subscribe(redirector))
-			{
-				return results.GetConsumingEnumerable();
-			}
+            using (GetOEmbeds(client, urls.ToObservable(), providerFilter, options).Subscribe(results.Add, ex => { }, results.CompleteAdding))
+            {
+                return results.GetConsumingEnumerable();
+            }
 		}
+
+        /// <summary>
+        /// Gets multiple oEmbeds
+        /// </summary>
+        /// <param name="client">The client.</param>
+        /// <param name="urls">The urls.</param>
+        /// <param name="providerFilter">The provider filter.</param>
+        /// <param name="options">The options.</param>
+        /// <returns></returns>
+        public static IObservable<Result> GetOEmbeds(this Client client, IObservable<Uri> urls, Func<Provider, bool> providerFilter, RequestOptions options)
+        {
+            if (urls == null)
+                throw new ArgumentNullException("urls");
+
+            if (options == null)
+                throw new ArgumentNullException("options");
+
+            var requests = urls
+                .Select(u => u.MakeUrlRequests(client))
+                .WhereProvider(providerFilter);
+
+            var redirector = new RequestObserver(client, options);
+
+            requests.Subscribe(redirector);
+
+            return redirector.Output;
+        }
 
 		/// <summary>
 		/// Returns successful results (not exeption during request and no error from embedly).

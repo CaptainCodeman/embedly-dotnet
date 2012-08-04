@@ -15,10 +15,15 @@ namespace Embedly
 		/// </summary>
 		public string Key { get; private set; }
 
+        /// <summary>
+        /// Gets the time to wait to fill a buffer for batching requests to embed.ly (up to 20 at a time)
+        /// </summary>
+        public TimeSpan BufferTimeout { get; private set; }
+
 		/// <summary>
-		/// Gets the timeout to use for requests.
+		/// Gets the requestTimeout to use for requests.
 		/// </summary>
-		public TimeSpan Timeout { get; private set; }
+		public TimeSpan RequestTimeout { get; private set; }
 
 		/// <summary>
 		/// Gets the response cache.
@@ -29,36 +34,24 @@ namespace Embedly
 		/// Initializes a new instance of the <see cref="Client"/> class.
 		/// </summary>
 		/// <param name="key">The key.</param>
-		public Client(string key) : this(key, new TimeSpan(0, 0, 30), new NullResponseCache()) { }
+		public Client(string key) : this(key, new TimeSpan(0, 0, 30), new TimeSpan(0, 0, 0), new NullResponseCache()) { }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Client"/> class.
-		/// </summary>
-		/// <param name="key">The key.</param>
-		/// <param name="timeout">The timeout.</param>
-		public Client(string key, TimeSpan timeout) : this(key, timeout, new NullResponseCache()) { }
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Client"/> class.
-		/// </summary>
-		/// <param name="key">The key.</param>
-		/// <param name="cache">The response cache.</param>
-		public Client(string key, IResponseCache cache) : this(key, new TimeSpan(0, 0, 30), cache) { }
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Client"/> class.
-		/// </summary>
-		/// <param name="key">The key.</param>
-		/// <param name="timeout">The timeout.</param>
-		/// <param name="cache">The response cache.</param>
-		public Client(string key, TimeSpan timeout, IResponseCache cache)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Client"/> class.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="requestTimeout">The requestTimeout.</param>
+        /// <param name="bufferTimeout">The buffer timeout.</param>
+        /// <param name="cache">The response cache.</param>
+		public Client(string key, TimeSpan requestTimeout, TimeSpan bufferTimeout, IResponseCache cache)
 		{
 			if (string.IsNullOrEmpty(key))
 				throw new ArgumentException("Embedly account key cannot be empty", "key");
 
 			Key = key;
-			Timeout = timeout;
-			Cache = cache;
+			RequestTimeout = requestTimeout;
+            BufferTimeout = bufferTimeout;
+            Cache = cache;
 		}
 
 		/// <summary>
