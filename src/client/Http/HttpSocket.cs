@@ -32,7 +32,13 @@ namespace Embedly.Http
 
 			httpWebRequest.ContentType = contentType;
 			httpWebRequest.Method = httpMethod;
-			httpWebRequest.Headers[HttpRequestHeader.AcceptEncoding] = "gzip, deflate"; // use http compression
+			httpWebRequest.Headers[HttpRequestHeader.AcceptEncoding] = "compress, gzip"; // use http compression
+		    httpWebRequest.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+            httpWebRequest.KeepAlive = true;
+            httpWebRequest.Pipelined = true;
+            httpWebRequest.UnsafeAuthenticatedConnectionSharing = true;
+            httpWebRequest.UseDefaultCredentials = false;
+            httpWebRequest.Proxy = WebRequest.DefaultWebProxy;
 
 			return httpWebRequest;
 		}
@@ -106,7 +112,7 @@ namespace Embedly.Http
 
 			var request = state as HttpWebRequest;
 
-			Log.Warn(m => m("Timeout requesting url: {0}", request.RequestUri));
+			Log.Warn(m => m("RequestTimeout requesting url: {0}", request.RequestUri));
 
 			if (request != null)
 				request.Abort();
