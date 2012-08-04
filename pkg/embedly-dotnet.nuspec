@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>embedly</id>
-    <version>0.7</version>
+    <version>0.8-rc</version>
     <title>Embedly Client for .NET</title>
     <authors>Simon Green</authors>
     <owners>Simon Green</owners>
@@ -14,7 +14,7 @@
     <language>en-US</language>
     <tags>embedly,oembed</tags>
     <dependencies>
-      <dependency id="Rx-Main" version="1.0.11226" />
+      <dependency id="Rx-Main" version="2.0.20622-rc" />
       <dependency id="Common.Logging" version="2.1.1" />
     </dependencies>
   </metadata>
