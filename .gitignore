@@ -10,3 +10,5 @@ _ReSharper.*
 *.Cache
 *.cache
 ~$*
+# Don't include NuGet Packages
+src/packages/
