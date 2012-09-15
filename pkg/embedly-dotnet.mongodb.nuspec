@@ -15,7 +15,7 @@
     <tags>embedly,oembed,mongodb</tags>
     <dependencies>
       <dependency id="embedly" version="0.8-rc" />
-      <dependency id="mongocsharpdriver" version="1.5" />
+      <dependency id="mongocsharpdriver" version="1.6" />
     </dependencies>
   </metadata>
   <files>
