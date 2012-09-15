@@ -20,6 +20,7 @@ namespace Embedly
 		private readonly Subject<Result> _results;
 		private readonly TimeSpan _timeout;
 		private readonly IResponseCache _cache;
+	    private bool _complete = false; // should complete when no more pending
 		private int _count = 0;
 
 		/// <summary>
@@ -66,8 +67,8 @@ namespace Embedly
 			    }
 
 			    // signal when we're done so consumers can finish
-			    if (Interlocked.Decrement(ref _count) == 0)
-			        _results.OnCompleted();
+                if (Interlocked.Decrement(ref _count) == 0 && _complete)
+                    _results.OnCompleted();
 
 			}, value);
 		}
@@ -87,10 +88,10 @@ namespace Embedly
 		/// </summary>
 		public void OnCompleted()
 		{
-			if (Interlocked.CompareExchange(ref _count, 0, 0) == 0)
-			{
-				_results.OnCompleted();
-			}
+            if (_count == 0)
+                _results.OnCompleted();
+            else
+                _complete = true;
 		}
 
 		/// <summary>
