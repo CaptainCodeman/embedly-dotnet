@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>embedly</id>
-    <version>0.8-rc</version>
+    <version>0.8</version>
     <title>Embedly Client for .NET</title>
     <authors>Simon Green</authors>
     <owners>Simon Green</owners>
