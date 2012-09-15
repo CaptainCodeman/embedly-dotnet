@@ -9,99 +9,103 @@ using Embedly.OEmbed;
 
 namespace Embedly.Sample
 {
-	public class AdoResponseCache : IResponseCache
-	{
-		private readonly DbProviderFactory _factory;
-		private readonly string _connectionString;
-		
-		public AdoResponseCache(DbProviderFactory factory, string connectionString)
-		{
-			_factory = factory;
-			_connectionString = connectionString;
-		}
+    public class AdoResponseCache : IResponseCache
+    {
+        private readonly string _connectionString;
+        private readonly DbProviderFactory _factory;
 
-		public Response Get(UrlRequest request)
-		{
-			using (var connection = _factory.CreateConnection())
-			{
-				connection.ConnectionString = _connectionString;
-				connection.Open();
+        public AdoResponseCache(DbProviderFactory factory, string connectionString)
+        {
+            _factory = factory;
+            _connectionString = connectionString;
+        }
 
-				var cmd = connection.CreateCommand();
-				cmd.CommandText = "select [Value] from Response where [Key] = @key";
-				
-				var pKey = cmd.CreateParameter();
-				pKey.DbType = DbType.Guid;
-				pKey.Direction = ParameterDirection.Input;
-				pKey.ParameterName = "key";
-				pKey.Value = request.CacheKey;
+        #region IResponseCache Members
 
-				cmd.Parameters.Add(pKey);
+        public Response Get(UrlRequest request)
+        {
+            using (DbConnection connection = _factory.CreateConnection())
+            {
+                connection.ConnectionString = _connectionString;
+                connection.Open();
 
-				var value = (string)cmd.ExecuteScalar();
-				if (value == null)
-					return null;
+                DbCommand cmd = connection.CreateCommand();
+                cmd.CommandText = "select [Value] from Response where [Key] = @key";
 
-				var bytes = Encoding.Default.GetBytes(value);
-				using (var ms = new MemoryStream(bytes))
-				{
-					var serializer = new DataContractJsonSerializer(typeof(Response));
-					var response = (Response)serializer.ReadObject(ms);
-					return response;
-				}
-			}
-		}
+                DbParameter pKey = cmd.CreateParameter();
+                pKey.DbType = DbType.Guid;
+                pKey.Direction = ParameterDirection.Input;
+                pKey.ParameterName = "key";
+                pKey.Value = request.CacheKey;
 
-		public void Put(UrlRequest request, Response value)
-		{
-			string valueString;
-			using (var ms = new MemoryStream())
-			{
-				var serializer = new DataContractJsonSerializer(typeof(Response));
-				serializer.WriteObject(ms, value);
-				ms.Position = 0;
-				valueString = Encoding.Default.GetString(ms.ToArray());
-			}
+                cmd.Parameters.Add(pKey);
 
-			using (var connection = _factory.CreateConnection())
-			{
-				connection.ConnectionString = _connectionString;
-				connection.Open();
+                var value = (string)cmd.ExecuteScalar();
+                if (value == null)
+                    return null;
 
-				var cmd = connection.CreateCommand();
-				cmd.CommandText = "insert into Response ([Key], [Url], [CachedOn], [Value]) values (@key, @url, @cachedOn, @value)";
+                byte[] bytes = Encoding.Default.GetBytes(value);
+                using (var ms = new MemoryStream(bytes))
+                {
+                    var serializer = new DataContractJsonSerializer(typeof (Response));
+                    var response = (Response)serializer.ReadObject(ms);
+                    return response;
+                }
+            }
+        }
 
-				var pKey = cmd.CreateParameter();
-				pKey.DbType = DbType.Guid;
-				pKey.Direction = ParameterDirection.Input;
-				pKey.ParameterName = "key";
-				pKey.Value = request.CacheKey;
+        public void Put(UrlRequest request, Response value)
+        {
+            string valueString;
+            using (var ms = new MemoryStream())
+            {
+                var serializer = new DataContractJsonSerializer(typeof (Response));
+                serializer.WriteObject(ms, value);
+                ms.Position = 0;
+                valueString = Encoding.Default.GetString(ms.ToArray());
+            }
 
-				var pUrl = cmd.CreateParameter();
-				pUrl.DbType = DbType.AnsiString;
-				pUrl.Direction = ParameterDirection.Input;
-				pUrl.ParameterName = "url";
-				pUrl.Value = request.Url.AbsoluteUri;
+            using (DbConnection connection = _factory.CreateConnection())
+            {
+                connection.ConnectionString = _connectionString;
+                connection.Open();
 
-				var pCachedOn = cmd.CreateParameter();
-				pCachedOn.DbType = DbType.DateTime;
-				pCachedOn.Direction = ParameterDirection.Input;
-				pCachedOn.ParameterName = "cachedOn";
-				pCachedOn.Value = DateTime.UtcNow;
+                DbCommand cmd = connection.CreateCommand();
+                cmd.CommandText = "insert into Response ([Key], [Url], [CachedOn], [Value]) values (@key, @url, @cachedOn, @value)";
 
-				var pValue = cmd.CreateParameter();
-				pValue.DbType = DbType.String;
-				pValue.Direction = ParameterDirection.Input;
-				pValue.ParameterName = "value";
-				pValue.Value = valueString;
+                DbParameter pKey = cmd.CreateParameter();
+                pKey.DbType = DbType.Guid;
+                pKey.Direction = ParameterDirection.Input;
+                pKey.ParameterName = "key";
+                pKey.Value = request.CacheKey;
 
-				cmd.Parameters.Add(pKey);
-				cmd.Parameters.Add(pUrl);
-				cmd.Parameters.Add(pCachedOn);
-				cmd.Parameters.Add(pValue);
+                DbParameter pUrl = cmd.CreateParameter();
+                pUrl.DbType = DbType.AnsiString;
+                pUrl.Direction = ParameterDirection.Input;
+                pUrl.ParameterName = "url";
+                pUrl.Value = request.Url.AbsoluteUri;
 
-				cmd.ExecuteNonQuery();
-			}
-		}
-	}
+                DbParameter pCachedOn = cmd.CreateParameter();
+                pCachedOn.DbType = DbType.DateTime;
+                pCachedOn.Direction = ParameterDirection.Input;
+                pCachedOn.ParameterName = "cachedOn";
+                pCachedOn.Value = DateTime.UtcNow;
+
+                DbParameter pValue = cmd.CreateParameter();
+                pValue.DbType = DbType.String;
+                pValue.Direction = ParameterDirection.Input;
+                pValue.ParameterName = "value";
+                pValue.Value = valueString;
+
+                cmd.Parameters.Add(pKey);
+                cmd.Parameters.Add(pUrl);
+                cmd.Parameters.Add(pCachedOn);
+                cmd.Parameters.Add(pValue);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        #endregion
+    }
 }
