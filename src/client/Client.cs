@@ -20,6 +20,13 @@ namespace Embedly
         /// Initializes a new instance of the <see cref="Client"/> class.
         /// </summary>
         /// <param name="key">The key.</param>
+        /// <param name="cache">The cache.</param>
+        public Client(string key, IResponseCache cache) : this(key, new TimeSpan(0, 0, 30), new TimeSpan(0, 0, 0), cache) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Client"/> class.
+        /// </summary>
+        /// <param name="key">The key.</param>
         /// <param name="requestTimeout">The requestTimeout.</param>
         /// <param name="bufferTimeout">The buffer timeout.</param>
         /// <param name="cache">The response cache.</param>

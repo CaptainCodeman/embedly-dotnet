@@ -31,14 +31,14 @@ namespace Embedly.Sample
 			{
 				var client = new Client(key, cache);
 
-				//Providers(client);
-				//ProviderInformation(client);
-				//ProviderPerUrl(client);
-				//SingleRich(client);
-				//SingleVideo(client);
-				//MultipleFilterByProvider(client);
-				//MultipleFilterByType(client);
-				//MultipleAll(client);
+                Providers(client);
+                ProviderInformation(client);
+                ProviderPerUrl(client);
+                SingleRich(client);
+                SingleVideo(client);
+                MultipleFilterByProvider(client);
+                MultipleFilterByType(client);
+                MultipleAll(client);
 				UrlNotFound(client);
 			}
 			catch (ArgumentException)
