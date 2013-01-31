@@ -45,7 +45,7 @@ namespace Embedly.Caching
         public void Put(UrlRequest request, Response response)
         {
             var cacheItem = new MongoCacheItem(request.CacheKey, request.Url, response);
-            _collection.Insert(cacheItem, SafeMode.False);
+            _collection.Insert(cacheItem);
         }
 
         #endregion
