@@ -2,14 +2,14 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>embedly</id>
-    <version>0.8</version>
+    <version>0.9</version>
     <title>Embedly Client for .NET</title>
     <authors>Simon Green</authors>
     <owners>Simon Green</owners>
     <projectUrl>https://github.com/CaptainCodeman/embedly-dotnet</projectUrl>
     <iconUrl>https://github.com/CaptainCodeman/embedly-dotnet/raw/master/pkg/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>At it's core, embedly is an oEmbed provider. oEmbed is a format for allowing an embedded representation of a URL on third party sites. The simple API allows a website to display embedded content (such as photos or videos) when a user posts a link to that resource, without having to parse the resource directly.</description>
+    <description>At its core, embedly is an oEmbed provider. oEmbed is a format for allowing an embedded representation of a URL on third party sites. The simple API allows a website to display embedded content (such as photos or videos) when a user posts a link to that resource, without having to parse the resource directly.</description>
     <summary>Embedly Client for .NET</summary>
     <language>en-US</language>
     <tags>embedly,oembed</tags>
@@ -19,6 +19,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\src\client\bin\Release\Embedly.dll" target="lib\net40"/>
+    <file src="..\src\client\bin\Release\Embedly.dll" target="lib\net45"/>
   </files>
 </package>

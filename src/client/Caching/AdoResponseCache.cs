@@ -4,10 +4,9 @@ using System.Data.Common;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
-using Embedly.Caching;
 using Embedly.OEmbed;
 
-namespace Embedly.Sample
+namespace Embedly.Caching
 {
     public class AdoResponseCache : IResponseCache
     {
@@ -18,6 +17,32 @@ namespace Embedly.Sample
         {
             _factory = factory;
             _connectionString = connectionString;
+
+            EnsureTableExists();
+        }
+
+        private void EnsureTableExists()
+        {
+            var sql = @"IF EXISTS(SELECT * FROM sysobjects WHERE name='EmbedlyCache' AND xtype = 'U') RETURN;
+CREATE TABLE [dbo].[EmbedlyCache]
+(
+    [Key] [uniqueidentifier] NOT NULL,
+    [Url] [varchar](2000) NOT NULL,
+    [CachedOn] [DateTime] NOT NULL,
+    [Value] [varchar](max) NOT NULL,
+
+    CONSTRAINT [PK_EmbedlyCache] PRIMARY KEY CLUSTERED ([Key] ASC)
+);";
+
+            using (DbConnection connection = _factory.CreateConnection())
+            using (DbCommand command = connection.CreateCommand())
+            {
+                connection.ConnectionString = _connectionString;
+                connection.Open();
+
+                command.CommandText = sql;
+                command.ExecuteNonQuery();
+            }
         }
 
         #region IResponseCache Members
@@ -30,7 +55,7 @@ namespace Embedly.Sample
                 connection.Open();
 
                 DbCommand cmd = connection.CreateCommand();
-                cmd.CommandText = "select [Value] from Response where [Key] = @key";
+                cmd.CommandText = "select [Value] from EmbedlyCache where [Key] = @key";
 
                 DbParameter pKey = cmd.CreateParameter();
                 pKey.DbType = DbType.Guid;
@@ -71,7 +96,7 @@ namespace Embedly.Sample
                 connection.Open();
 
                 DbCommand cmd = connection.CreateCommand();
-                cmd.CommandText = "insert into Response ([Key], [Url], [CachedOn], [Value]) values (@key, @url, @cachedOn, @value)";
+                cmd.CommandText = "insert into EmbedlyCache ([Key], [Url], [CachedOn], [Value]) values (@key, @url, @cachedOn, @value)";
 
                 DbParameter pKey = cmd.CreateParameter();
                 pKey.DbType = DbType.Guid;

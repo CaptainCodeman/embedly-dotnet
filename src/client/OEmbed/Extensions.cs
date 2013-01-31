@@ -143,7 +143,6 @@ namespace Embedly.OEmbed
                 throw new ArgumentNullException("options");
 
             IObservable<UrlRequest> requests = urls
-                .ObserveOn(NewThreadScheduler.Default)
                 .Select(u => u.MakeUrlRequests(client))
                 .WhereProvider(providerFilter);
 

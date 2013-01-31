@@ -1,10 +1,9 @@
-﻿using Embedly.Caching;
-using Embedly.OEmbed;
+﻿using Embedly.OEmbed;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 
-namespace Embedly
+namespace Embedly.Caching
 {
     public class MongoResponseCache : IResponseCache
     {
@@ -26,7 +25,11 @@ namespace Embedly
             BsonClassMap.RegisterClassMap<Rich>();
             BsonClassMap.RegisterClassMap<Video>();
 
-            MongoDatabase database = MongoDatabase.Create(connectionString);
+            var url = MongoUrl.Create(connectionString);
+            var client = new MongoClient(url);
+            var server = client.GetServer();
+            var database = server.GetDatabase(url.DatabaseName);
+
             var settings = new MongoCollectionSettings<MongoCacheItem>(database, "embedly");
             _collection = database.GetCollection(settings);
         }

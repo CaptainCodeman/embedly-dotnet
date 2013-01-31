@@ -1,7 +1,7 @@
 ﻿using System;
 using Embedly.OEmbed;
 
-namespace Embedly
+namespace Embedly.Caching
 {
     public class MongoCacheItem
     {

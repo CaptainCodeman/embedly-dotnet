@@ -4,7 +4,7 @@ using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 
-namespace Embedly
+namespace Embedly.Caching
 {
     internal class TypeDiscriminatorConvention : IDiscriminatorConvention
     {
