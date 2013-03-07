@@ -32,8 +32,20 @@ namespace Embedly
             get { return Lazy.Value; }
         }
 
-        internal IEnumerable<Provider> Providers { get; private set; }
-
+        private IEnumerable<Provider> providers;
+        internal IEnumerable<Provider> Providers
+        {
+            get
+            {
+                if (providers == null)
+                    DownloadServices();
+                return providers;
+            }
+            private set
+            {
+                providers = value;
+            }
+        }
         private void DownloadServices()
         {
             Log.InfoFormat("Loading embed.ly service list");
