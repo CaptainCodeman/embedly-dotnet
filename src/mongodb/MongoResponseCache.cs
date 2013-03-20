@@ -30,8 +30,7 @@ namespace Embedly.Caching
             var server = client.GetServer();
             var database = server.GetDatabase(url.DatabaseName);
 
-            var settings = new MongoCollectionSettings<MongoCacheItem>(database, "embedly");
-            _collection = database.GetCollection(settings);
+            _collection = database.GetCollection<MongoCacheItem>("embedly");
         }
 
         #region IResponseCache Members

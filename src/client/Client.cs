@@ -14,14 +14,14 @@ namespace Embedly
         /// Initializes a new instance of the <see cref="Client"/> class.
         /// </summary>
         /// <param name="key">The key.</param>
-        public Client(string key) : this(key, new TimeSpan(0, 0, 30), new TimeSpan(0, 0, 0), new NullResponseCache()) {}
+        public Client(string key) : this(key, new TimeSpan(0, 1, 0), new TimeSpan(0, 0, 0), new NullResponseCache()) {}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Client"/> class.
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="cache">The cache.</param>
-        public Client(string key, IResponseCache cache) : this(key, new TimeSpan(0, 0, 30), new TimeSpan(0, 0, 0), cache) { }
+        public Client(string key, IResponseCache cache) : this(key, new TimeSpan(0, 1, 0), new TimeSpan(0, 0, 0), cache) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Client"/> class.

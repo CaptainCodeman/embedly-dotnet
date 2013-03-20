@@ -22,7 +22,7 @@ namespace Embedly.Caching
             Type actualType = nominalType;
             if (bsonReader.FindElement("Type"))
             {
-                BsonValue discriminator = BsonValue.ReadFrom(bsonReader);
+                BsonValue discriminator = BsonSerializer.Deserialize<BsonValue>(bsonReader);
                 actualType = BsonSerializer.LookupActualType(nominalType, discriminator);
             }
             bsonReader.ReturnToBookmark(bookmark);

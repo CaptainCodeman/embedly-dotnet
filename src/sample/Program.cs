@@ -122,10 +122,13 @@ namespace Embedly.Sample
 
 			// video specific details
 			var rich = result.Response.AsRich;
-			Console.WriteLine("Width          : {0}", rich.Width);
-			Console.WriteLine("Height         : {0}", rich.Height);
-			Console.WriteLine("Html           : {0}", rich.Html);
-			Console.WriteLine();
+		    if (rich != null)
+		    {
+		        Console.WriteLine("Width          : {0}", rich.Width);
+		        Console.WriteLine("Height         : {0}", rich.Height);
+		        Console.WriteLine("Html           : {0}", rich.Html);
+		        Console.WriteLine();
+		    }
 		}
 
 		private static void UrlNotFound(Client client)
@@ -167,10 +170,13 @@ namespace Embedly.Sample
 
 			// video specific details
 			var video = result.Response.AsVideo;
-			Console.WriteLine("Width          : {0}", video.Width);
-			Console.WriteLine("Height         : {0}", video.Height);
-			Console.WriteLine("Html           : {0}", video.Html);
-			Console.WriteLine();
+		    if (video != null)
+		    {
+		        Console.WriteLine("Width          : {0}", video.Width);
+		        Console.WriteLine("Height         : {0}", video.Height);
+		        Console.WriteLine("Html           : {0}", video.Html);
+		        Console.WriteLine();
+		    }
 		}
 
 		private static void ProviderPerUrl(Client client)
