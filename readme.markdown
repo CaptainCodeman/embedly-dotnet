@@ -79,4 +79,4 @@ Similar to the previous example, this expands the lookup to cover all providers 
     var results = client.GetOEmbeds(urls, provider => provider.Type == ProviderType.Video, new RequestOptions { MaxWidth = 320 });
 
 ## Limitations
-The current version supports [oEmbed](http://embed.ly/docs/endpoints/1/oembed) only. Support for the [Preview](http://embed.ly/docs/endpoints/1/preview) and [Objectify](http://embed.ly/docs/endpoints) endpoints is planned for future releases.
+The current version supports [oEmbed](http://embed.ly/docs/endpoints/1/oembed).
