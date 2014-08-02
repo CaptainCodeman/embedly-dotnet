@@ -69,6 +69,22 @@
         /// </value>
         public bool Force { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating whether to use SSL to embed
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if SSL is to be used; otherwise, <c>false</c>.
+		/// </value>
+		public bool Secure { get; set; }
+		
+		/// <summary>
+		/// Gets or sets a value indicating whether embeds are created in an iframe
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if embeds should be in an iframe; otherwise, <c>false</c>.
+		/// </value>
+		public bool Frame { get; set; }
+
         /// <summary>
         /// Builds query-string parameters based on the request options set
         /// </summary>
@@ -100,6 +116,12 @@
 
             if (Force)
                 querystring += "&force=true";
+
+			if (Secure)
+				querystring += "&secure=true";
+
+			if (Frame)
+				querystring += "&frame=true";
 
             return querystring;
         }
